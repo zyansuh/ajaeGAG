@@ -1,10 +1,17 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>새로운 페이지 제목</title>
+    <script>
+      
+      const scriptTag = document.createElement("script");
+      scriptTag.src = "/src/service/script.js"; // src/service 경로로 조정
+      scriptTag.defer = true;
+      document.head.appendChild(scriptTag);
+    </script>
   </head>
   <body>
     <div id="root"></div>
