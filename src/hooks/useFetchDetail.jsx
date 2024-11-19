@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-
-import supabase from '../../suapbase/supabaseClient'
+import supabase from '../supabaseClient'
 
 const useFetchDetail = (id) => {
   const [loading, setLoading] = useState(false)

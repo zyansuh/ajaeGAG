@@ -149,7 +149,7 @@ const DetailPostLikeBtn = styled.button`
   border-radius: 8px;
   padding: 5px 10px;
   cursor: pointer;
-}
+
 `
 
 const DetailPostLikeCount = styled.span`
