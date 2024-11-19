@@ -1,14 +1,9 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import React from 'react';
+import ReactDOM from 'react-dom/client'; // 수정된 import 경로
+import App from './App';
 
-const queryClient = new QueryClient()
-
-createRoot(document.getElementById('root')).render(
-  <QueryClientProvider client={queryClient}>
-    <StrictMode>
-      <App />
-    </StrictMode>
-  </QueryClientProvider>
-)
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);

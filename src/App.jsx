@@ -1,6 +1,7 @@
-import Router from './components/router/Router'
+import Router from './components/router/Router';
 
 const App = () => {
-  return <Router />
-}
-export default App
+  return <Router />;
+};
+
+export default App;
