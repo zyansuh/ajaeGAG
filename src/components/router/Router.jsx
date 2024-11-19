@@ -25,6 +25,7 @@ const Router = () => {
             <Route path="list" element={<ListPage />} />
             <Route path="list/:id" element={<ListDetailPage />} />
             <Route path="post" element={<PostPage />} />
+            <Route path="/detail/:id" element={<DetailPage />} />
           </Routes>
         </Layout>
       </BrowserRouter>
