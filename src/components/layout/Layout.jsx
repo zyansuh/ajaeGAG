@@ -1,11 +1,14 @@
 import styled from 'styled-components'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 
 function Header() {
   return (
     <HeaderContainer>
       <nav>
-        <img src="/images/logo.png" alt="아재슐랭 로고" />
+        {/* 로고: 클릭 시 홈으로 이동 */}
+        <Logo to="/">
+          <img src="/images/logo.png" alt="아재슐랭 로고" />
+        </Logo>
         <ul>
           <li>
             <StyledLink to="/about">소개</StyledLink>
@@ -41,9 +44,12 @@ function Layout({ children }) {
 
   return (
     <div>
-      {!hideHeaderFooter && <Header />}
-      <LayoutContainer>{children}</LayoutContainer>
-      {!hideHeaderFooter && <Footer />}
+      <Header />
+      <LayoutContainer>
+        <Outlet /> {/* Outlet을 사용해 중첩 라우팅 */}
+        {children} {/* 직접 전달된 자식 컴포넌트 렌더링 */}
+      </LayoutContainer>
+      <Footer />
     </div>
   )
 }
@@ -119,6 +125,17 @@ const HeaderContainer = styled.header`
       gap: 5px;
       padding: 0;
     }
+  }
+`
+const Logo = styled(Link)`
+  /* 로고의 스타일 정의 */
+  img {
+    width: 100px;
+    cursor: pointer;
+  }
+
+  &:hover {
+    opacity: 0.8; /* 호버 시 약간의 투명도 효과 */
   }
 `
 
