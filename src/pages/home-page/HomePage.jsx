@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import supabase from  "../../supabaseClient";
-
+import supabase from '../../supabaseClient'
 
 const HomePage = () => {
   const navigate = useNavigate()
@@ -10,16 +9,16 @@ const HomePage = () => {
   const [translatedJoke, setTranslatedJoke] = useState('') // 번역된 농담 저장
   const [reviews, setReviews] = useState([]) // Supabase에서 가져온 리뷰 데이터 저장
   const [showAnswers, setShowAnswers] = useState({}) // 특정 리뷰의 답변 표시 여부를 저장하는 상태
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(null)
 
   // 농담 가져오는 함수
- 
+
   const fetchJoke = async () => {
     try {
       const response = await fetch('https://icanhazdadjoke.com/', {
         headers: {
-          Accept: 'application/json', // JSON 응답 형식 요청
-        },
+          Accept: 'application/json' // JSON 응답 형식 요청
+        }
       })
       const data = await response.json()
       setJoke(data.joke) // 농담 상태 업데이트
@@ -35,14 +34,11 @@ const HomePage = () => {
   const translateJoke = async (text) => {
     const apiKey = 'AIzaSyDnXVgSV8caN1mWYHNmfyy0T4_1gR_eXqg' // Google Translate API Key
     try {
-      const response = await fetch(
-        `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ q: text, target: 'ko' }), // 한국어로 번역
-        }
-      )
+      const response = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ q: text, target: 'ko' }) // 한국어로 번역
+      })
       const data = await response.json()
       setTranslatedJoke(data?.data?.translations?.[0]?.translatedText || '번역 오류가 발생했습니다.')
     } catch (error) {
@@ -51,18 +47,19 @@ const HomePage = () => {
     }
   }
 
-   // Supabase에서 리뷰 데이터를 가져오는 함수
-   const fetchReviews = async () => {
+  // Supabase에서 리뷰 데이터를 가져오는 함수
+  const fetchReviews = async () => {
     try {
       const { data, error } = await supabase
         .from('posts')
-        .select(`
+        .select(
+          `
           id,
           question,
-          answer,
           created_at,
           users (nickname, url_img)
-        `)
+        `
+        )
         .order('created_at', { ascending: false }) // 최신순 정렬
 
       if (error) throw error
@@ -71,20 +68,20 @@ const HomePage = () => {
       console.error('Error fetching reviews:', error)
     }
   }
-  
- // 답변 표시/숨기기 토글 함수
- const toggleAnswerVisibility = (id) => {
-  setShowAnswers((prevState) => ({
-    ...prevState,
-    [id]: !prevState[id], // 해당 리뷰 ID의 답변 표시 여부를 반전
-  }))
-}
 
-// 컴포넌트 로드 시 Supabase 데이터 및 농담 가져오기
-useEffect(() => {
-  fetchReviews()
-  fetchJoke()
-}, [])
+  // 답변 표시/숨기기 토글 함수
+  const toggleAnswerVisibility = (id) => {
+    setShowAnswers((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id] // 해당 리뷰 ID의 답변 표시 여부를 반전
+    }))
+  }
+
+  // 컴포넌트 로드 시 Supabase 데이터 및 농담 가져오기
+  useEffect(() => {
+    fetchReviews()
+    fetchJoke()
+  }, [])
 
   return (
     <Main>
@@ -107,14 +104,10 @@ useEffect(() => {
               <img src={review.users?.url_img || '/default-avatar.png'} alt="프로필" />
               <span>{review.users?.nickname || '익명'}</span>
             </Header>
-            {/* 질문과 답변 */}
-            <h3>{review.question}</h3>
             {/* 질문 */}
-            <p>{review.answer}</p>
-            {showAnswers[review.id] && <p>{review.answer}</p>} {/* 답변 (기본적으로 숨김) */}
-            <button onClick={() => toggleAnswerVisibility(review.id)}>
-              {showAnswers[review.id] ? '답 숨기기' : '자세히 보기'} {/* 버튼 텍스트 변경 */}
-            </button>
+            <h3>{review.question}</h3>
+            {/* 자세히 보기 버튼: Detail Page로 이동 */}
+            <button onClick={() => navigate(`/detail/${review.id}`)}>자세히 보기</button>
           </Card>
         ))}
       </Reviews>
@@ -141,6 +134,7 @@ const Main = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-bottom: 50px;
 `
 
 const Section = styled.section`
