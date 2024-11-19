@@ -1,12 +1,8 @@
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
+import supabase from "./supabaseClient";
 
-// Supabase 설정
-const supabaseUrl = 'https://fbsdrujhtozzlwbhhvxc.supabase.co' // Supabase URL
-const supabaseKey = import.meta.env.VITE_SUPABASE_KEY // Supabase API Key
-const supabase = createClient(supabaseUrl, supabaseKey)
 
 const HomePage = () => {
   const navigate = useNavigate()
@@ -14,14 +10,16 @@ const HomePage = () => {
   const [translatedJoke, setTranslatedJoke] = useState('') // 번역된 농담 저장
   const [reviews, setReviews] = useState([]) // Supabase에서 가져온 리뷰 데이터 저장
   const [showAnswers, setShowAnswers] = useState({}) // 특정 리뷰의 답변 표시 여부를 저장하는 상태
+  const [data, setData] = useState(null);
 
   // 농담 가져오는 함수
+ 
   const fetchJoke = async () => {
     try {
       const response = await fetch('https://icanhazdadjoke.com/', {
         headers: {
-          Accept: 'application/json' // JSON 응답 형식 요청
-        }
+          Accept: 'application/json', // JSON 응답 형식 요청
+        },
       })
       const data = await response.json()
       setJoke(data.joke) // 농담 상태 업데이트
@@ -37,65 +35,56 @@ const HomePage = () => {
   const translateJoke = async (text) => {
     const apiKey = 'AIzaSyDnXVgSV8caN1mWYHNmfyy0T4_1gR_eXqg' // Google Translate API Key
     try {
-      const response = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${apiKey}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          q: text,
-          target: 'ko' // 한국어로 번역
-        })
-      })
+      const response = await fetch(
+        `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ q: text, target: 'ko' }), // 한국어로 번역
+        }
+      )
       const data = await response.json()
-      if (data?.data?.translations?.[0]?.translatedText) {
-        setTranslatedJoke(data.data.translations[0].translatedText)
-      } else {
-        setTranslatedJoke('번역 오류가 발생했습니다.')
-      }
+      setTranslatedJoke(data?.data?.translations?.[0]?.translatedText || '번역 오류가 발생했습니다.')
     } catch (error) {
       console.error('Error translating joke:', error)
       setTranslatedJoke('번역 중 오류가 발생했습니다.')
     }
   }
 
-  // Supabase에서 리뷰 데이터를 가져오는 함수
-  const fetchReviews = async () => {
+   // Supabase에서 리뷰 데이터를 가져오는 함수
+   const fetchReviews = async () => {
     try {
       const { data, error } = await supabase
-        .from('posts') // posts 테이블
-        .select(
-          `
+        .from('posts')
+        .select(`
           id,
           question,
-          
+          answer,
           created_at,
           users (nickname, url_img)
-        `
-        )
+        `)
         .order('created_at', { ascending: false }) // 최신순 정렬
 
       if (error) throw error
-      // console.log('supabase에서 가져온 데이터', data)
-      setReviews(data.slice(0, 6)) // 리뷰 데이터 업데이트
+      setReviews(data.slice(0, 6)) // 최대 6개의 리뷰만 저장
     } catch (error) {
       console.error('Error fetching reviews:', error)
     }
   }
+  
+ // 답변 표시/숨기기 토글 함수
+ const toggleAnswerVisibility = (id) => {
+  setShowAnswers((prevState) => ({
+    ...prevState,
+    [id]: !prevState[id], // 해당 리뷰 ID의 답변 표시 여부를 반전
+  }))
+}
 
-  // 답변 표시/숨기기 토글 함수
-  const toggleAnswerVisibility = (id) => {
-    setShowAnswers((prevState) => ({
-      ...prevState,
-      [id]: !prevState[id] // 해당 리뷰 ID의 답변 표시 여부를 반전
-    }))
-  }
-
-  // 컴포넌트 로드 시 Supabase와 농담 데이터 가져오기
-  useEffect(() => {
-    fetchReviews() // 리뷰 데이터를 가져옴
-    fetchJoke() // 농담 데이터를 가져옴
-  }, [])
+// 컴포넌트 로드 시 Supabase 데이터 및 농담 가져오기
+useEffect(() => {
+  fetchReviews()
+  fetchJoke()
+}, [])
 
   return (
     <Main>

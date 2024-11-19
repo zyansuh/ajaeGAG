@@ -7,3 +7,5 @@ const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
 
 // Supabase 클라이언트 생성
 export const supabase = createClient(supabaseUrl, supabaseKey)
+
+export default supabase
