@@ -297,4 +297,4 @@ const Footer = styled.footer`
     font-size: 0.8rem;
     color: #666;
   }
-`
+`              
