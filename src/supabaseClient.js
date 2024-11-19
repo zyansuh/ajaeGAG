@@ -1,8 +1,11 @@
+// src/service/supabaseClient.js
 import { createClient } from '@supabase/supabase-js'
 
-// 본인 것 사용하기
-const supabaseUrl = 'https://flbaynnqwzzeweliqljp.supabase.co'
-// vite에서 env 사용하는 법
+// 환경 변수에서 Supabase URL과 키 가져오기
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
+
+// Supabase 클라이언트 생성
 export const supabase = createClient(supabaseUrl, supabaseKey)
 
+export default supabase
