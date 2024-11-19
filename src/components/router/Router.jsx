@@ -9,6 +9,8 @@ import PostPage from '../../pages/post-page/PostPage'
 import HomePage from '../../pages/home-page/HomePage'
 import ListPage from '../../pages/list-page/ListPage'
 import Layout from '../layout/Layout'
+import { ToastContainer } from 'react-toastify' // ToastContainer 임포트
+import 'react-toastify/dist/ReactToastify.css' // 스타일 임포트
 
 const Router = () => {
   return (
@@ -28,6 +30,7 @@ const Router = () => {
           </Routes>
         </Layout>
       </BrowserRouter>
+      <ToastContainer />
     </>
   )
 }

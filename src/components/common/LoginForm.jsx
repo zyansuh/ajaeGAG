@@ -2,29 +2,38 @@ import styled from 'styled-components'
 import { useState, useRef } from 'react'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import supabase from '../../supabaseClient'
 
 const LoginForm = () => {
-  // Mock 데이터
-  const mockUserData = {
-    email: 'test@naver.com',
-    password: '123456' // 실제 연동 시에는 안전한 방식으로 처리해야 합니다
-  }
-
   const navigate = useNavigate()
-  const [userEmail, setUserEmail] = useState('')
-  const [userPwd, setUserPwd] = useState('')
-  const [user, setUser] = useState(null)
-
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const emailFocus = useRef(null)
   const passwordFocus = useRef(null)
 
-  // 로그인 처리 함수 (Mock 데이터)
-  const handleLogin = (email, password) => {
-    if (email === mockUserData.email && password === mockUserData.password) {
+  const [user, setUser] = useState(null)
+
+  // 로그인 처리 함수 (SupaBase인증)
+  const handleLogin = async (email, password) => {
+    try {
+      // Supabase 인증을 이용하여 로그인 시도
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      })
+
+      if (error) {
+        // 로그인 실패 시 오류 처리
+        toast.error('이메일 또는 비밀번호가 잘못되었습니다.')
+        return
+      }
+
+      // 로그인 성공 시
       toast.success('로그인 성공!')
       navigate('/') // 로그인 후 홈 페이지로 이동
-    } else {
-      toast.error('이메일 또는 비밀번호가 잘못되었습니다.')
+    } catch (err) {
+      console.log(err)
+      toast.error('로그인 중 오류가 발생했습니다.')
     }
   }
 
@@ -32,20 +41,20 @@ const LoginForm = () => {
     event.preventDefault()
 
     // 이메일 또는 비밀번호가 비어있을 경우 별도의 알림 처리
-    if (!userEmail.trim()) {
+    if (!email.trim()) {
       toast.warning('이메일을 입력해주세요.') // 이메일 입력을 요구하는 알림
       emailFocus.current.focus()
       return
     }
 
-    if (!userPwd.trim()) {
+    if (!password.trim()) {
       toast.warning('비밀번호를 입력해주세요.') // 비밀번호 입력을 요구하는 알림
       passwordFocus.current.focus()
       return
     }
 
     // 이메일과 비밀번호가 모두 입력되었을 때 로그인 처리
-    handleLogin(userEmail, userPwd)
+    handleLogin(email, password)
   }
 
   const moveSignUP = () => {
@@ -61,8 +70,8 @@ const LoginForm = () => {
             ref={emailFocus}
             id="email"
             type="email"
-            value={userEmail}
-            onChange={(e) => setUserEmail(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="이메일을 입력하세요"
           />
 
@@ -71,10 +80,12 @@ const LoginForm = () => {
             ref={passwordFocus}
             id="password"
             type="password"
-            value={userPwd}
-            onChange={(e) => setUserPwd(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="비밀번호를 입력하세요"
           />
+
+          <Label htmlFor="username" />
 
           <Button type="submit">로그인</Button>
           <Button type="button" onClick={moveSignUP}>
@@ -122,7 +133,7 @@ const Button = styled.button`
   margin: 10px;
 
   &:hover {
-    background-color: #45a049;
+    background-color: #131313;
   }
 `
 const ImageWrapper = styled.div`

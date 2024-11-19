@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 function Header() {
   return (
@@ -36,11 +36,14 @@ function Footer() {
 }
 
 function Layout({ children }) {
+  const location = useLocation()
+  const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/signup'
+
   return (
     <div>
-      <Header />
+      {!hideHeaderFooter && <Header />}
       <LayoutContainer>{children}</LayoutContainer>
-      <Footer />
+      {!hideHeaderFooter && <Footer />}
     </div>
   )
 }
