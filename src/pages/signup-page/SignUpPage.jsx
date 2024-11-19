@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import supabase from '../../supabaseClient'
 import ProfileImageUpload from '../../components/common/ProfileImageUpload'
 import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import supabase from '../../supabase/supabaseClient'
 
 const SignUpPage = () => {
   const navigate = useNavigate()

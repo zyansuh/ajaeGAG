@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { useState, useRef } from 'react'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
-import supabase from '../../supabaseClient'
+import supabase from '../../supabase/supabaseClient'
 
 const LoginForm = () => {
   const navigate = useNavigate()

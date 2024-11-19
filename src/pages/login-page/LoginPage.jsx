@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import 'react-toastify/dist/ReactToastify.css' // Toastify 스타일 임포트
 import LoginForm from '../../components/common/LoginForm'
 import { Link } from 'react-router-dom'
 
