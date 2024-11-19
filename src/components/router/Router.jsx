@@ -11,7 +11,6 @@ import ListPage from '../../pages/list-page/ListPage'
 import Layout from '../layout/Layout'
 import UpdatePage from '../../pages/update-page/UpdatePage'
 
-
 const Router = () => {
   return (
     <>
@@ -27,7 +26,7 @@ const Router = () => {
             <Route path="list" element={<ListPage />} />
             <Route path="list/:id" element={<ListDetailPage />} />
             <Route path="post" element={<PostPage />} />
-            <Route path="/detail/:id" element={<DetailPage />} />
+            <Route path="/list-detail/:id" element={<ListDetailPage />} />
           </Routes>
         </Layout>
       </BrowserRouter>

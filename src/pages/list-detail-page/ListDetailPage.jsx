@@ -16,6 +16,12 @@ const ListDetailPage = () => {
 
   const { loading, error, post, comments } = useFetchDetail(id)
 
+  const ListDetailPage = () => {
+    const { id } = useParams();
+  
+    return <div>상세 페이지 ID: {id}</div>;
+  };
+
   // const [loading, setLoading] = useState(false)
   // const [error, setError] = useState('')
   // const [post, setPost] = useState([])

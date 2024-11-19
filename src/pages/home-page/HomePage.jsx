@@ -94,23 +94,22 @@ const HomePage = () => {
         </Hero>
       </Section>
 
-      {/* 리뷰 카드 섹션 */}
-      <Reviews>
-        {reviews.map((review) => (
-          <Card key={review.id}>
-            {' '}
-            {/* 카드 헤더: 사용자 프로필 이미지와 닉네임 */}
-            <Header>
-              <img src={review.users?.url_img || '/default-avatar.png'} alt="프로필" />
-              <span>{review.users?.nickname || '익명'}</span>
-            </Header>
-            {/* 질문 */}
-            <h3>{review.question}</h3>
-            {/* 자세히 보기 버튼: Detail Page로 이동 */}
-            <button onClick={() => navigate(`/detail/${review.id}`)}>자세히 보기</button>
-          </Card>
-        ))}
-      </Reviews>
+    {/* 리뷰 카드 섹션 */}
+<Reviews>
+  {reviews.map((review) => (
+    <Card key={review.id}>
+      {/* 카드 헤더: 사용자 프로필 이미지와 닉네임 */}
+      <Header>
+        <img src={review.users?.url_img || '/default-avatar.png'} alt="프로필" />
+        <span>{review.users?.nickname || '익명'}</span>
+      </Header>
+      {/* 질문 */}
+      <h3>{review.question}</h3>
+      {/* 자세히 보기 버튼: ListDetailPage로 이동 */}
+      <button onClick={() => navigate(`/list-detail/${review.id}`)}>자세히 보기</button>
+    </Card>
+  ))}
+</Reviews>
 
       {/* 추가 CTA 섹션 */}
       <CTASection>
