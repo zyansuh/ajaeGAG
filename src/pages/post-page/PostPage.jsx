@@ -1,35 +1,25 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components"
-import { createClient } from '@supabase/supabase-js';
+import {supabase } from "../../supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 
 const PostPage = () => {
-
-  // 본인 것 사용하기
-  const supabaseUrl = 'https://flbaynnqwzzeweliqljp.supabase.co'; 
-  // vite에서 env 사용하는 법
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsYmF5bm5xd3p6ZXdlbGlxbGpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzE5MTA1MDAsImV4cCI6MjA0NzQ4NjUwMH0.mmsWEYRFehZLotB8v8OcIuzX8vR2gynr1sD3q47wf5U"; 
-  const supabase = createClient(supabaseUrl, supabaseKey);
-  
-
 
   const [post, setPost] = useState([]);
   // input에 입력한 값을 저장하는 state
   const [titleName, setTitleName] = useState("");
   const [correct, setCorrect] = useState("");
-
-  const [editingCorrect, setEditingCorrect] = useState(0);
-  // 수정할 국가 id
-  const [editingId, setEditingId] = useState(null);
-
+  const navigate = useNavigate();
 
 
 	// useEffect 내에서 외부 데이터 조회 (API 요청)
   useEffect(() => {
     const fetchPost = async () => {
 	    // supabase 데이터베이스에서 Post 테이블 조회
-      const { data, error } = await supabase.from("post").select("*");
-
+      const { data, error } = await supabase
+      .from("post")
+      .select("*");
       if (error) {
         return alert(error.message);
       }
@@ -51,7 +41,8 @@ const PostPage = () => {
       return alert(error.message);
     }
     setPost([...post, ...data]);
-  
+    
+    navigate(`/list`)
   };
 
 	// countryName state 변경 함수
@@ -63,52 +54,6 @@ const PostPage = () => {
   const handleCorrectChange = (e) => {
     setCorrect(e.target.value);
   };
-
-
-
-
-// 수정
-const handleEditClick = (post) => {
-  setEditingId(post.id);
-  setEditingCorrect(post.correct);
-};
-
-const handleCancelEdit = () => {
-  setEditingId(null);
-  setEditingCorrect(null);
-};
-
-const handleEditCorrectChange = (e) => {
-  setEditingCorrect(e.target.value);
-};
-
-const handleSaveEdit = async () => {
-  const { data, error } = await supabase
-    .from("post")
-    .update({ correct: editingCorrect })
-    .eq("id", editingId)
-    .select();
-  if (error) {
-    return alert(error.message);
-  }
-  setPost(
-    post.map((post) => (post.id === editingId ? data[0] : post))
-  );
-  setEditingId(null);
-  setEditingCorrect(null);
-};
-
-
-
-
-// 삭제
-const handleDeleteClick = async (id) => {
-  const { error } = await supabase.from("post").delete().eq("id", id);
-  if (error) {
-    return alert(error.message);
-  }
-  setPost(post.filter((post) => post.id !== id));
-};
 
 
   
@@ -137,39 +82,6 @@ const handleDeleteClick = async (id) => {
       <PostBtn type="submit">제출하기</PostBtn>
     </PostForm>
 
-
-    <h1>post</h1>
-    <ul>
-        {post.map((post) => (
-          <li key={post.id}>
-            <div>이름: {post.title}</div>
-            {editingId === post.id ? (
-              <>
-              <input
-                  type="text"
-                  value={editingCorrect}
-                  onChange={handleEditCorrectChange}
-                />
-                <input
-                  type="text"
-                  value={editingCorrect}
-                  onChange={handleEditCorrectChange}
-                />
-                <button onClick={handleSaveEdit}>저장</button>
-                <button onClick={handleCancelEdit}>취소</button>
-              </>
-            ) : (
-              <>
-                <div>인구: {post.correct}</div>
-                <button onClick={() => handleEditClick(post)}>수정</button>
-                <button onClick={() => handleDeleteClick(post.id)}>
-                  삭제
-                </button>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
   </div>
 }
 
