@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const ListPage = () => {
-  return <div>List Page</div>;
-};
+  return <div>List Page</div>
+}
 
-export default ListPage;
+export default ListPage

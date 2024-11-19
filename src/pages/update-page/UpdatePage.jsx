@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import styled from "styled-components"
 import { createClient } from '@supabase/supabase-js';
 
+const UpdatePage = () => {
 
-const PostPage = () => {
 
   // 본인 것 사용하기
   const supabaseUrl = 'https://flbaynnqwzzeweliqljp.supabase.co'; 
@@ -17,7 +17,8 @@ const PostPage = () => {
   // input에 입력한 값을 저장하는 state
   const [titleName, setTitleName] = useState("");
   const [correct, setCorrect] = useState("");
-
+  
+  const [editingTitle, setEditingTitle] = useState(0);
   const [editingCorrect, setEditingCorrect] = useState(0);
   // 수정할 국가 id
   const [editingId, setEditingId] = useState(null);
@@ -70,16 +71,21 @@ const PostPage = () => {
 // 수정
 const handleEditClick = (post) => {
   setEditingId(post.id);
+  setEditingTitle(post.title)
   setEditingCorrect(post.correct);
 };
 
 const handleCancelEdit = () => {
   setEditingId(null);
+  setEditingTitle(null);
   setEditingCorrect(null);
 };
 
 const handleEditCorrectChange = (e) => {
   setEditingCorrect(e.target.value);
+};
+const handleEditTitleChange = (e) => {
+  setEditingTitle(e.target.value);
 };
 
 const handleSaveEdit = async () => {
@@ -111,71 +117,75 @@ const handleDeleteClick = async (id) => {
 };
 
 
-  
-  return <div>
-    
+
+
+
+
+
+
+  return ( <div>
     <PostForm onSubmit={handleSubmit}>
       <PostUl>
-        <PostLi>
+          {post.map((post) => (
+            <PostLi key={post.id}>
+              <div>이름: {post.title}</div>
+              {editingId === post.id ? (
+                <>
+                <PostInput
+                    type="text"
+                    value={editingTitle}
+                    onChange={handleEditTitleChange}
+                  />
+                  <PostInput
+                    type="text"
+                    value={editingCorrect}
+                    onChange={handleEditCorrectChange}
+                  />
+                  <PostBtn onClick={handleSaveEdit}>저장</PostBtn>
+                  <PostBtn onClick={handleCancelEdit}>취소</PostBtn>
+                </>
+              ) : (
+                <>
+                  <div>인구: {post.correct}</div>
+                  <PostBtn onClick={() => handleEditClick(post)}>수정</PostBtn>
+                  <PostBtn onClick={() => handleDeleteClick(post.id)}>
+                    삭제
+                  </PostBtn>
+                </>
+              )}
+            </PostLi>
+          ))}
+        </PostUl>
+      {/* <PostUl>
+        <PostLi key={post.id}>
       <label htmlFor="title"> 제목  </label>
-      <PostInput type="text" 
-      placeholder="당신의 개그를 입력하세요" 
+      <PostInput 
+      type="text" 
+      placeholder={post.title}
       size={150} 
-      value={titleName}
-      onChange={handleTitleNameChange}/>
+      value={editingCorrect}
+      onChange={handleEditCorrectChange}/>
       </PostLi>
       <PostLi>
       <label htmlFor="answer"> 정답  </label>
-      <PostInput type="text" 
-      placeholder="당신의 개그에 정답을 입력하세요" 
+      <PostInput 
+      type="text" 
       size={150}
-      value={correct}
-      onChange={handleCorrectChange}
+      value={editingCorrect}
+      onChange={handleEditCorrectChange}
       />
       </PostLi>
       </PostUl>
-      <PostBtn type="submit">제출하기</PostBtn>
+      <PostBtn type="submit">수정하기</PostBtn> */}
     </PostForm>
 
 
-    <h1>post</h1>
-    <ul>
-        {post.map((post) => (
-          <li key={post.id}>
-            <div>이름: {post.title}</div>
-            {editingId === post.id ? (
-              <>
-              <input
-                  type="text"
-                  value={editingCorrect}
-                  onChange={handleEditCorrectChange}
-                />
-                <input
-                  type="text"
-                  value={editingCorrect}
-                  onChange={handleEditCorrectChange}
-                />
-                <button onClick={handleSaveEdit}>저장</button>
-                <button onClick={handleCancelEdit}>취소</button>
-              </>
-            ) : (
-              <>
-                <div>인구: {post.correct}</div>
-                <button onClick={() => handleEditClick(post)}>수정</button>
-                <button onClick={() => handleDeleteClick(post.id)}>
-                  삭제
-                </button>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
-  </div>
+
+ </div>
+  )
 }
 
-export default PostPage
-
-
+export default UpdatePage
 
 
 const PostForm = styled.form`
@@ -235,4 +245,3 @@ const PostBtn = styled.button`
     background-color: #898f91; /* 더 어두운 색상 */
   }
 `;
-

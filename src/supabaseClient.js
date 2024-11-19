@@ -1,6 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = '(수파베이스 프로젝트 url)';
-const supabaseAnonKey = '(Supabase Anon Key)'; 
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// 본인 것 사용하기
+const supabaseUrl = 'https://gotfpvrpusieiwuktrjg.supabase.co'; 
+// vite에서 env 사용하는 법
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY; 
+const supabase = createClient(supabaseUrl, supabaseKey);
+export default supabase
