@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import changeTime from '../../utils/changeTime'
 import { useState, useEffect } from 'react'
-import supabase from '../../supabaseClient'
 import { useInView } from 'react-intersection-observer'
+import supabase from '../../supabase/supabaseClient'
 
 const ListPage = () => {
   const [data, setData] = useState([]) // 데이터 상태
