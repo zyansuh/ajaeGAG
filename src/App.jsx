@@ -1,8 +1,7 @@
-import Router from './components/router/Router'
-import HomePage from "./pages/home-page/HomePage"
+import Router from './components/router/Router';
 
 const App = () => {
-  return <HomePage /> // HomePage 컴포넌트를 렌더링
-}
+  return <Router />;
+};
 
-export default App
+export default App;
