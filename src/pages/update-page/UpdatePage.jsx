@@ -7,20 +7,21 @@ const UpdattePage = () => {
   // input에 입력한 값을 저장하는 state
   const [titleName, setTitleName] = useState('')
   const [correct, setCorrect] = useState('')
-  const { id } = useParams()
-  const navigate = useNavigate()
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   // useEffect 내에서 외부 데이터 조회 (API 요청)
   useEffect(() => {
     const fetchPost = async () => {
       // supabase 데이터베이스에서 Post 테이블 조회
-      const { data, error } = await supabase.from('posts').select('*').eq('id', id)
+      const { data, error } = await supabase
+      .from('posts').select('*').eq('id', id)
       if (error) {
         return alert(error.message)
       }
       // 성공 시 데이터를 Post state에 저장
-      setTitleName(data[0].title)
-      setCorrect(data[0].correct)
+      setTitleName(data[0].question)
+      setCorrect(data[0].answer)
     }
     // 함수 실행
     fetchPost()
@@ -29,7 +30,10 @@ const UpdattePage = () => {
   //추가
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const { data, error } = await supabase.from('posts').update({ title: titleName, correct: correct }).eq('id', id)
+    const { data, error } = await supabase
+    .from('posts')
+    .update({ question: titleName, answer: correct })
+    .eq('id', id)
     if (error) {
       return alert(error.message)
     }
