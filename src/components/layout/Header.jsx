@@ -44,19 +44,19 @@ const Header = () => {
             <>
               <span>
                 {user?.user_metadata?.nickname ? (
-                  <h5>{user.user_metadata.nickname}님, 환영합니다!</h5>
+                  <GreetLogin>{user.user_metadata.nickname}님, 환영합니다!</GreetLogin>
                 ) : user?.user_metadata.name ? (
-                  <h5>{user.user_metadata.name}님 환영합니다!</h5>
+                  <GreetLogin>{user.user_metadata.name}님 환영합니다!</GreetLogin>
                 ) : (
-                  <h5>환영합니다.</h5>
+                  <GreetLogin>환영합니다.</GreetLogin>
                 )}
               </span>
-              <Link to="/mypage">
-                <FaUserCircle size={24} color="white" />
-              </Link>
-              <button onClick={handleLogout}>
-                <FaSignOutAlt size={24} />
-              </button>
+              <MypageLink to="/mypage">
+                <FaUserCircle size={26} />
+              </MypageLink>
+              <LogoutButton onClick={handleLogout}>
+                <FaSignOutAlt size={18} />
+              </LogoutButton>
             </>
           ) : (
             <>
@@ -74,7 +74,7 @@ export default Header
 
 const HeaderContainer = styled.header`
   max-width: 1200px;
-  background-color: var(--nav-color);
+  background-color: var(--nav--color);
   height: 100px;
   display: flex;
   align-items: center;
@@ -113,6 +113,7 @@ const HeaderContainer = styled.header`
     padding-right: 30px;
     display: flex;
     gap: 10px;
+    align-items: center;
   }
 
   /* 미디어 쿼리: 768px 이하일 때 */
@@ -164,5 +165,32 @@ const SignupLink = styled(StyledLink)`
 
   &:hover {
     border-color: var(--logo--color);
+  }
+`
+
+const GreetLogin = styled.p`
+  color: var(--logo--color);
+`
+
+const MypageLink = styled(Link)`
+  margin-left: 5px;
+  border-radius: 100px;
+  color: var(--logo--color);
+
+  &:hover {
+    cursor: pointer;
+  }
+`
+
+const LogoutButton = styled.button`
+  margin-left: 5px;
+  background-color: var(--logo--color);
+  color: var(--nav--color);
+  border: none;
+  padding: 2px 4px;
+  border-radius: 6px;
+
+  &:hover {
+    cursor: pointer;
   }
 `

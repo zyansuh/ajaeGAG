@@ -1,8 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
 import GlobalStyle from '../styled-component/GlobalStyle'
 import AboutPage from '../../pages/about-page/AboutPage'
 import LoginPage from '../../pages/login-page/LoginPage'
@@ -14,7 +12,6 @@ import HomePage from '../../pages/home-page/HomePage'
 import ListPage from '../../pages/list-page/ListPage'
 import Layout from '../layout/Layout'
 import UpdatePage from '../../pages/update-page/UpdatePage'
-
 import ProtectedRoute from './ProtectedRoute'
 
 const Router = () => {
@@ -32,9 +29,9 @@ const Router = () => {
               <Route path="signup" element={<SignUpPage />} />
               <Route path="mypage" element={<MyPage />} />
               <Route path="list" element={<ListPage />} />
-              <Route path="/list/:id" element={<ListDetailPage />} />
+              <Route path="list/:id" element={<ListDetailPage />} />
               <Route path="post" element={<PostPage />} />
-              <Route path="/post/:id" element={<UpdatePage />} />
+              <Route path="post/:id" element={<UpdatePage />} />
             </Route>
           </Routes>
         </Layout>
