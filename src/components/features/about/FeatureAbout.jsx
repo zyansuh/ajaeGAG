@@ -12,7 +12,6 @@ const FeatureAbout = ({ title, description }) => {
 export default FeatureAbout
 
 const FeatureContainer = styled.div`
-
   h1 {
     font-size: 16px;
     font-weight: bold;
