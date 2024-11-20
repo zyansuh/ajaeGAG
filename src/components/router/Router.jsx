@@ -23,7 +23,6 @@ const Router = () => {
       <BrowserRouter>
         <ToastContainer />
         <GlobalStyle />
-        <ToastContainer />
         <Layout>
           <Routes>
             <Route path="/" element={<HomePage />} />
