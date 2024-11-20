@@ -1,8 +1,48 @@
+import { useState } from 'react'
+
+import { useParams } from 'react-router-dom'
+
+import { toast } from 'react-toastify'
+
 import styled from 'styled-components'
 
-const CommentForm = () => {
+import supabase from '../../../supabase/supabaseClient'
+
+import { useUserContext } from '../../../context/userContext'
+
+const CommentForm = ({ modify, setModify }) => {
+  const session = useUserContext()
+
+  const { id } = useParams()
+
+  const [content, setContent] = useState('')
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    const { data, error } = await supabase
+      .from('comments')
+      .insert([
+        {
+          user_id: session.user.id,
+          post_id: id,
+          content
+        }
+      ])
+      .select()
+
+    if (error) {
+      toast.error('댓글을 작성할 수 없습니다.')
+    }
+
+    setContent('')
+    setModify(!modify)
+    toast.success('댓글을 작성했습니다.')
+    console.log('data', data)
+  }
+
+  const handleChange = (e) => {
+    setContent(e.target.value)
   }
 
   return (
@@ -10,7 +50,7 @@ const CommentForm = () => {
       <form onSubmit={handleSubmit}>
         <CommentFormBox>
           <CommentFormLabel>댓글을 입력하세요.</CommentFormLabel>
-          <CommentFormTextArea placeholder="댓글을 입력하세요!" rows={5} />
+          <CommentFormTextArea value={content} onChange={handleChange} placeholder="댓글을 입력하세요!" rows={5} />
           <CommentForSubmitBtn type="submit">제출하기</CommentForSubmitBtn>
         </CommentFormBox>
       </form>

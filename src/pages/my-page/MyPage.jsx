@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import supabase from '../../supabase/supabaseClient'
 import ProfileImageUpload from '../../components/features/login/ProfileImageUpload'
 import { toast } from 'react-toastify'
-import { useUserContext } from '../../components/features/userContext/UserContextProvider'
 import styled from 'styled-components'
+import { useUserContext } from '../../context/userContext'
 
 function MyPage() {
   const { user, updateUser } = useUserContext() // useUserContext로 사용자 정보 받아오기
