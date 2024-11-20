@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { toast } from 'react-toastify'
 
-import supabase from '../../../suapbase/supabaseClient'
+import supabase from '../../../supabase/supabaseClient'
 
 import changeTime from '../../../utils/changeTime'
 

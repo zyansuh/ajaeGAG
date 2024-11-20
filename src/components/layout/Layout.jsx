@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 
 function Header() {
   return (
@@ -39,14 +39,17 @@ function Footer() {
 }
 
 function Layout({ children }) {
+  const location = useLocation()
+  const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/signup'
+
   return (
     <div>
-      <Header />
+      {!hideHeaderFooter && <Header />}
       <LayoutContainer>
         <Outlet /> {/* Outlet을 사용해 중첩 라우팅 */}
         {children} {/* 직접 전달된 자식 컴포넌트 렌더링 */}
       </LayoutContainer>
-      <Footer />
+      {!hideHeaderFooter && <Footer />}
     </div>
   )
 }
@@ -134,7 +137,7 @@ const Logo = styled(Link)`
   &:hover {
     opacity: 0.8; /* 호버 시 약간의 투명도 효과 */
   }
-`;
+`
 
 const StyledLink = styled(Link)`
   text-decoration: none;

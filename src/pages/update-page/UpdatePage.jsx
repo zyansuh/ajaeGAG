@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { supabase } from '../../supabaseClient'
 import { useNavigate, useParams } from 'react-router-dom'
+import supabase from '../../supabase/supabaseClient'
 
 const UpdattePage = () => {
   // input에 입력한 값을 저장하는 state
