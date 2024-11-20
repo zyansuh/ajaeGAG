@@ -6,7 +6,7 @@ import supabase from '../../supabase/supabaseClient'
 import { toast } from 'react-toastify'
 
 const Header = () => {
-  const { session, user } = useUserContext()
+  const { session, user, updateUser } = useUserContext()
 
   // 로그아웃 핸들러
   const handleLogout = async () => {
@@ -15,6 +15,7 @@ const Header = () => {
       toast.error('로그아웃 중 오류 발생')
     } else {
       toast.success('로그아웃되었습니다')
+      updateUser(null)
     }
   }
 
@@ -46,7 +47,7 @@ const Header = () => {
                 )}
               </span>
               <Link to="/mypage">
-                <FaUserCircle size={24} color="white" />
+                <FaUserCircle size={40} color="white" />
               </Link>
               <button onClick={handleLogout}>
                 <FaSignOutAlt size={24} />

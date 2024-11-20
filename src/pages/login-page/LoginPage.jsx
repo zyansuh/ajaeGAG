@@ -6,34 +6,34 @@ const LoginPage = () => {
   return (
     <LoginContainer>
       <StyledLink to="/">
-        <h1>Ajae CheLen</h1>
+        <h1>Ajae CheLin</h1>
       </StyledLink>
-      <h2>로그인</h2>
       <LoginForm />
     </LoginContainer>
   )
 }
 
 export default LoginPage
+
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  box-shadow: 3px 3px gray;
+  height: 100vh;
 
   h1 {
-    font-size: 36px; /* 수정된 부분: px 단위로 수정 */
+    font-size: 60px; /* 제목 크기 */
     margin-bottom: 10px;
+    color: #ac2828;
     cursor: pointer;
-  }
-
-  h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'KCC-Ahnchangho';
   }
 `
+
 const StyledLink = styled(Link)`
   text-decoration: none;
+  color: #2c2c2c;
 `

@@ -8,6 +8,7 @@ const UserContext = createContext(null)
 // Context Provider 컴포넌트
 export const UserContextProvider = ({ children }) => {
   const [session, setSession] = useState(null)
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     // 로그인 상태 변화 감지
@@ -16,8 +17,10 @@ export const UserContextProvider = ({ children }) => {
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
         setSession(null)
+        setUser(null)
       } else {
         setSession(session)
+        setUser(session?.user)
       }
     })
 
@@ -27,7 +30,12 @@ export const UserContextProvider = ({ children }) => {
     }
   }, [])
 
-  return <UserContext.Provider value={{ session, user: session?.user }}>{children}</UserContext.Provider>
+  const updateUser = (newUser) => {
+    setUser(newUser)
+    console.log(newUser)
+  }
+
+  return <UserContext.Provider value={{ session, user, setUser, updateUser }}>{children}</UserContext.Provider>
 }
 
 // Custom Hook: Context 사용을 쉽게 하기 위한 hook
