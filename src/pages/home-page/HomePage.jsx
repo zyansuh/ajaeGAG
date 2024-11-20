@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import supabase from  "../../supabaseClient";
+import supabase from  "../../suapbase/supabaseClient";
 
 
 const HomePage = () => {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { supabase } from '../../supabaseClient'
+import  supabase  from '../../suapbase/supabaseClient'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const UpdattePage = () => {
@@ -14,7 +14,7 @@ const UpdattePage = () => {
   useEffect(() => {
     const fetchPost = async () => {
       // supabase 데이터베이스에서 Post 테이블 조회
-      const { data, error } = await supabase.from('post').select('*').eq('id', id)
+      const { data, error } = await supabase.from('posts').select('*').eq('id', id)
       if (error) {
         return alert(error.message)
       }
@@ -29,7 +29,7 @@ const UpdattePage = () => {
   //추가
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const { data, error } = await supabase.from('post').update({ title: titleName, correct: correct }).eq('id', id)
+    const { data, error } = await supabase.from('posts').update({ title: titleName, correct: correct }).eq('id', id)
     if (error) {
       return alert(error.message)
     }
