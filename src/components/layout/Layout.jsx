@@ -3,6 +3,7 @@ import Header from './Header'
 import Footer from './Footer'
 import { Outlet } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import { UserContextProvider } from '../features/userContext/UserContextProvider'
 
 const Layout = ({ children }) => {
   const location = useLocation()
@@ -10,7 +11,7 @@ const Layout = ({ children }) => {
 
   return (
     <div>
-      {!hideHeaderFooter && <Header />}
+      <UserContextProvider>{!hideHeaderFooter && <Header />}</UserContextProvider>
       <LayoutContainer>
         <Outlet /> {/* Outlet을 사용해 중첩 라우팅 */}
         {children} {/* 직접 전달된 자식 컴포넌트 렌더링 */}

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { useState, useRef, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
-import supabase from '../../supabase/supabaseClient'
+import supabase from '../../../supabase/supabaseClient'
 
 const LoginForm = () => {
   const navigate = useNavigate()
@@ -62,7 +62,7 @@ const LoginForm = () => {
   }
 
   const googleLogin = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { data } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         queryParams: {
@@ -71,15 +71,9 @@ const LoginForm = () => {
         }
       }
     })
-
-    if (error) {
-      toast.error('구글로그인에 실패했습니다.')
-    } else {
-      toast.success('구글 로그인 완료')
-    }
   }
 
-  useEffect(() => {})
+  console.log(user)
 
   if (!user) {
     return (

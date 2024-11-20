@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import LoginForm from '../../components/common/LoginForm'
+import LoginForm from '../../components/features/login/LoginForm'
 import { Link } from 'react-router-dom'
 
 const LoginPage = () => {
