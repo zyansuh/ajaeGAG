@@ -9,7 +9,7 @@ const HomePage = () => {
   const [translatedJoke, setTranslatedJoke] = useState('') // 번역된 농담 저장
   const [reviews, setReviews] = useState([]) // Supabase에서 가져온 리뷰 데이터 저장
   const [showAnswers, setShowAnswers] = useState({}) // 특정 리뷰의 답변 표시 여부를 저장하는 상태
-  const [data, setData] = useState(null)
+  // const [data, setData] = useState(null)
 
   // 농담 가져오는 함수
 
