@@ -1,25 +1,26 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import supabase from '../../supabase/supabaseClient'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
-const PostPage = () => {
-  const [post, setPost] = useState([])
+const UpdattePage = () => {
   // input에 입력한 값을 저장하는 state
   const [titleName, setTitleName] = useState('')
   const [correct, setCorrect] = useState('')
+  const { id } = useParams()
   const navigate = useNavigate()
 
   // useEffect 내에서 외부 데이터 조회 (API 요청)
   useEffect(() => {
     const fetchPost = async () => {
       // supabase 데이터베이스에서 Post 테이블 조회
-      const { data, error } = await supabase.from('post').select('*')
+      const { data, error } = await supabase.from('post').select('*').eq('id', id)
       if (error) {
         return alert(error.message)
       }
       // 성공 시 데이터를 Post state에 저장
-      setPost(data)
+      setTitleName(data[0].title)
+      setCorrect(data[0].correct)
     }
     // 함수 실행
     fetchPost()
@@ -28,13 +29,11 @@ const PostPage = () => {
   //추가
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const { data, error } = await supabase.from('post').insert({ title: titleName, correct }).select()
+    const { data, error } = await supabase.from('post').update({ title: titleName, correct: correct }).eq('id', id)
     if (error) {
       return alert(error.message)
     }
-    setPost([...post, ...data])
-
-    navigate(`/list`)
+    navigate(`/list/${id}`)
   }
 
   // countryName state 변경 함수
@@ -72,13 +71,13 @@ const PostPage = () => {
             />
           </PostLi>
         </PostUl>
-        <PostBtn type="submit">제출하기</PostBtn>
+        <PostBtn type="submit">수정하기</PostBtn>
       </PostForm>
     </div>
   )
 }
 
-export default PostPage
+export default UpdattePage
 
 const PostForm = styled.form`
   display: flex;
