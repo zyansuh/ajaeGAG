@@ -87,7 +87,7 @@ const HomePage = () => {
 
   // ===== 특정 리뷰를 클릭하면 ListDetailPage로 이동 =====
   const handleNavigate = (id) => {
-    navigate(`/list-detail/${id}`) // 리뷰의 ID를 URL에 포함하여 라우팅
+    navigate(`/list/${id}`) // 리뷰의 ID를 URL에 포함하여 라우팅
   }
 
   return (
