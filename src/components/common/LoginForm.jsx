@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import supabase from '../../supabase/supabaseClient'
@@ -61,6 +61,26 @@ const LoginForm = () => {
     navigate('/signup')
   }
 
+  const googleLogin = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent'
+        }
+      }
+    })
+
+    if (error) {
+      toast.error('구글로그인에 실패했습니다.')
+    } else {
+      toast.success('구글 로그인 완료')
+    }
+  }
+
+  useEffect(() => {})
+
   if (!user) {
     return (
       <LoginContainer>
@@ -90,6 +110,9 @@ const LoginForm = () => {
           <Button type="submit">로그인</Button>
           <Button type="button" onClick={moveSignUP}>
             회원가입
+          </Button>
+          <Button type="link" onClick={googleLogin}>
+            구글 로그인
           </Button>
         </form>
         <ImageWrapper>
