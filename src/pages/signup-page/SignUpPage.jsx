@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import ProfileImageUpload from '../../components/common/ProfileImageUpload'
+import ProfileImageUpload from '../../components/features/login/ProfileImageUpload'
 import { toast } from 'react-toastify'
 import supabase from '../../supabase/supabaseClient'
 

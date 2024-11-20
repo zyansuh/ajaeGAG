@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from './Header'
 import Footer from './Footer'
+import { UserContextProvider } from '../features/userContext/UserContextProvider'
 
 const Layout = () => {
   const location = useLocation()
@@ -9,7 +10,7 @@ const Layout = () => {
 
   return (
     <div>
-      {!hideHeaderFooter && <Header />}
+      <UserContextProvider>{!hideHeaderFooter && <Header />}</UserContextProvider>
       <LayoutContainer>
         <Outlet /> {/* 중첩 라우트 렌더링 */}
       </LayoutContainer>
