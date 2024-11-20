@@ -9,6 +9,8 @@ import PostPage from '../../pages/post-page/PostPage'
 import HomePage from '../../pages/home-page/HomePage'
 import ListPage from '../../pages/list-page/ListPage'
 import Layout from '../layout/Layout'
+import UpdatePage from '../../pages/update-page/UpdatePage'
+
 
 const Router = () => {
   return (
@@ -25,6 +27,7 @@ const Router = () => {
             <Route path="list" element={<ListPage />} />
             <Route path="list/:id" element={<ListDetailPage />} />
             <Route path="post" element={<PostPage />} />
+            <Route path="/detail/:id" element={<DetailPage />} />
           </Routes>
         </Layout>
       </BrowserRouter>
