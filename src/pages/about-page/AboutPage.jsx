@@ -1,15 +1,13 @@
 import styled from 'styled-components'
-import SectionOne from '../../components/ui/about/SectionOne'
-import SectionTwo from '../../components/ui/about/SectionTwo'
-import SectionThree from '../../components/ui/about/SectionThree'
+import CatchLine from '../../components/ui/about/CatchLine'
+import Content from '../../components/ui/about/Content'
 
 const AboutPage = () => {
   return (
     <>
       <AboutContainer>
-        <SectionOne />
-        <SectionTwo />
-        <SectionThree />
+        <CatchLine />
+        <Content />
       </AboutContainer>
     </>
   )
