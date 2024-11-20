@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import changeTime from '../../../utils/changeTime'
 
 const Comment = ({ comment }) => {
-  const handleDeleteComment = async () => {}
+  const handleDeleteComment = async (id) => {}
 
   return (
     <CommentContainer>
@@ -17,7 +17,7 @@ const Comment = ({ comment }) => {
         </CommentInfoBox>
         <CommentBtnGroup>
           <button>수정</button>
-          <button onClick={() => handleDeleteComment()}>삭제</button>
+          <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
         </CommentBtnGroup>
       </CommentInforContainer>
       <CommentContent>{comment.content}</CommentContent>
