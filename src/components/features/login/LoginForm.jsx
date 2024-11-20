@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import supabase from '../../../supabase/supabaseClient'

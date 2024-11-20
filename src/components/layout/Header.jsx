@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-import { useUserContext } from '../features/userContext/UserContextProvider'
-import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa'
-import supabase from '../../supabase/supabaseClient'
+
 import { toast } from 'react-toastify'
+
+import styled from 'styled-components'
+
+// import { useUserContext } from '../features/userContext/UserContextProvider'
+import { useUserContext } from '../../context/userContext'
+
+import supabase from '../../supabase/supabaseClient'
+
+import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa'
 
 const Header = () => {
   const { session, user } = useUserContext()
