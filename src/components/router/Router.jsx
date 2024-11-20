@@ -15,10 +15,13 @@ import ListPage from '../../pages/list-page/ListPage'
 import Layout from '../layout/Layout'
 import UpdatePage from '../../pages/update-page/UpdatePage'
 
+import ProtectedRoute from './ProtectedRoute'
+
 const Router = () => {
   return (
     <>
       <BrowserRouter>
+        <ToastContainer />
         <GlobalStyle />
         <ToastContainer />
         <Layout>
@@ -26,12 +29,14 @@ const Router = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="login" element={<LoginPage />} />
-            <Route path="signup" element={<SignUpPage />} />
-            <Route path="mypage" element={<MyPage />} />
-            <Route path="list" element={<ListPage />} />
-            <Route path="list/:id" element={<ListDetailPage />} />
-            <Route path="post" element={<PostPage />} />
-            <Route path="/post/:id" element={<UpdatePage />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="signup" element={<SignUpPage />} />
+              <Route path="mypage" element={<MyPage />} />
+              <Route path="list" element={<ListPage />} />
+              <Route path="/list/:id" element={<ListDetailPage />} />
+              <Route path="post" element={<PostPage />} />
+              <Route path="/post/:id" element={<UpdatePage />} />
+            </Route>
           </Routes>
         </Layout>
       </BrowserRouter>

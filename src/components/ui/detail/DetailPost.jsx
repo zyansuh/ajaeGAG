@@ -13,7 +13,7 @@ import { useUserContext } from '../../../context/userContext'
 import changeTime from '../../../utils/changeTime'
 
 const DetailPost = ({ postItem }) => {
-  const session = useUserContext()
+  const { user } = useUserContext()
 
   console.log(postItem)
   const [likesCount, setLikesCount] = useState(postItem.likes.length)
@@ -46,13 +46,13 @@ const DetailPost = ({ postItem }) => {
       }
 
       // 현재 유저와 게시글에 좋아요를 누른 유저가 있는지 여부 확인
-      const isSameUser = data.some((like) => like.user_id === session.user.id)
+      const isSameUser = data.some((like) => like.user_id === user.id)
 
       setIsLiked(isSameUser)
     }
 
     getLikedData()
-  }, [postItem.id, session.user.id])
+  }, [postItem.id, user.id])
 
   // 좋아요 추가
   const handlePostLike = async (id) => {
@@ -61,7 +61,7 @@ const DetailPost = ({ postItem }) => {
     if (error) throw error
 
     if (isLiked) {
-      const { error } = await supabase.from('likes').delete().eq('user_id', session.user.id)
+      const { error } = await supabase.from('likes').delete().eq('user_id', user.id)
 
       if (error) {
         toast.error('좋아요를 취소할 수 없습니다.')
@@ -75,7 +75,7 @@ const DetailPost = ({ postItem }) => {
         .from('likes')
         .insert([
           {
-            user_id: session.user.id,
+            user_id: user.id,
             post_id: id,
             created_at: new Date()
           }
@@ -97,7 +97,7 @@ const DetailPost = ({ postItem }) => {
       <DetailPostTitleContainer>
         <DetailPostTitle>{postItem.question}</DetailPostTitle>
         <DetailPostBtnGroup>
-          {postItem.user_id === session.user.id && (
+          {postItem.user_id === user.id && (
             <>
               <button onClick={() => navigate(`/post/${postItem.id}`)}>수정</button>
               <button onClick={() => handleDeletePost(postItem.id)}>삭제</button>

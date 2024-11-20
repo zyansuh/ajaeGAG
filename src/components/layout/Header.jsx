@@ -1,10 +1,28 @@
 import { Link } from 'react-router-dom'
+
+import { toast } from 'react-toastify'
+
 import styled from 'styled-components'
 
+// import { useUserContext } from '../features/userContext/UserContextProvider'
 import { useUserContext } from '../../context/userContext'
 
+import supabase from '../../supabase/supabaseClient'
+
+import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa'
+
 const Header = () => {
-  const session = useUserContext()
+  const { session, user } = useUserContext()
+
+  // 로그아웃 핸들러
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut()
+    if (error) {
+      toast.error('로그아웃 중 오류 발생')
+    } else {
+      toast.success('로그아웃되었습니다')
+    }
+  }
 
   return (
     <HeaderContainer>
@@ -20,9 +38,26 @@ const Header = () => {
             <StyledLink to="/list">목록</StyledLink>
           </li>
         </ul>
+
         <div className="nav-links">
-          {session?.user ? (
-            <div>{session.user.user_metadata.nickname}님 환영합니다.</div>
+          {session ? (
+            <>
+              <span>
+                {user?.user_metadata?.nickname ? (
+                  <h5>{user.user_metadata.nickname}님, 환영합니다!</h5>
+                ) : user?.user_metadata.name ? (
+                  <h5>{user.user_metadata.name}님 환영합니다!</h5>
+                ) : (
+                  <h5>환영합니다.</h5>
+                )}
+              </span>
+              <Link to="/mypage">
+                <FaUserCircle size={24} color="white" />
+              </Link>
+              <button onClick={handleLogout}>
+                <FaSignOutAlt size={24} />
+              </button>
+            </>
           ) : (
             <>
               <LoginLink to="/login">로그인</LoginLink>

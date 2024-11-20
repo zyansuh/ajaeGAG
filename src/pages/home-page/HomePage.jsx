@@ -5,14 +5,38 @@ import supabase from '../../supabase/supabaseClient'
 
 const HomePage = () => {
   const navigate = useNavigate()
+
+  // Supabase에서 가져올 리뷰 데이터를 저장하는 상태
+  const [reviews, setReviews] = useState([])
+  const [showAnswers, setShowAnswers] = useState({}) // 특정 리뷰의 답변 표시 여부를 저장하는 상태
   const [joke, setJoke] = useState('') // API에서 가져온 농담 저장
   const [translatedJoke, setTranslatedJoke] = useState('') // 번역된 농담 저장
-  const [reviews, setReviews] = useState([]) // Supabase에서 가져온 리뷰 데이터 저장
-  const [showAnswers, setShowAnswers] = useState({}) // 특정 리뷰의 답변 표시 여부를 저장하는 상태
-  const [data, setData] = useState(null)
+  const [data, setData] = useState({}) // 추가 데이터 상태 (사용 예정)
 
-  // 농담 가져오는 함수
+  // ===== Supabase에서 리뷰 데이터를 가져오는 함수 =====
+  const fetchReviews = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .select(
+          `
+          id,
+          question,
+          created_at,
+          users (nickname, url_img)
+        `
+        )
+        .order('created_at', { ascending: false }) // 최신순 정렬
 
+      if (error) throw error
+
+      setReviews(data.slice(0, 6)) // 최대 6개의 리뷰만 저장
+    } catch (error) {
+      console.error('Error fetching reviews:', error)
+    }
+  }
+
+  // ===== 농담 데이터를 가져오는 함수 =====
   const fetchJoke = async () => {
     try {
       const response = await fetch('https://icanhazdadjoke.com/', {
@@ -30,7 +54,7 @@ const HomePage = () => {
     }
   }
 
-  // 농담 번역하는 함수
+  // ===== 농담 번역하는 함수 =====
   const translateJoke = async (text) => {
     const apiKey = 'AIzaSyDnXVgSV8caN1mWYHNmfyy0T4_1gR_eXqg' // Google Translate API Key
     try {
@@ -47,29 +71,7 @@ const HomePage = () => {
     }
   }
 
-  // Supabase에서 리뷰 데이터를 가져오는 함수
-  const fetchReviews = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('posts')
-        .select(
-          `
-          id,
-          question,
-          created_at,
-          users (nickname, url_img)
-        `
-        )
-        .order('created_at', { ascending: false }) // 최신순 정렬
-
-      if (error) throw error
-      setReviews(data.slice(0, 6)) // 최대 6개의 리뷰만 저장
-    } catch (error) {
-      console.error('Error fetching reviews:', error)
-    }
-  }
-
-  // 답변 표시/숨기기 토글 함수
+  // ===== 답변 표시/숨기기 토글 함수 =====
   const toggleAnswerVisibility = (id) => {
     setShowAnswers((prevState) => ({
       ...prevState,
@@ -77,11 +79,16 @@ const HomePage = () => {
     }))
   }
 
-  // 컴포넌트 로드 시 Supabase 데이터 및 농담 가져오기
+  // ===== 컴포넌트 로드 시 Supabase 데이터 및 농담 가져오기 =====
   useEffect(() => {
-    fetchReviews()
-    fetchJoke()
+    fetchReviews() // 리뷰 데이터 가져오기
+    fetchJoke() // 농담 가져오기
   }, [])
+
+  // ===== 특정 리뷰를 클릭하면 ListDetailPage로 이동 =====
+  const handleNavigate = (id) => {
+    navigate(`/list/${id}`) // 리뷰의 ID를 URL에 포함하여 라우팅
+  }
 
   return (
     <Main>
@@ -98,7 +105,6 @@ const HomePage = () => {
       <Reviews>
         {reviews.map((review) => (
           <Card key={review.id}>
-            {' '}
             {/* 카드 헤더: 사용자 프로필 이미지와 닉네임 */}
             <Header>
               <img src={review.users?.url_img || '/default-avatar.png'} alt="프로필" />
@@ -106,8 +112,8 @@ const HomePage = () => {
             </Header>
             {/* 질문 */}
             <h3>{review.question}</h3>
-            {/* 자세히 보기 버튼: Detail Page로 이동 */}
-            <button onClick={() => navigate(`/detail/${review.id}`)}>자세히 보기</button>
+            {/* 자세히 보기 버튼: ListDetailPage로 이동 */}
+            <button onClick={() => handleNavigate(review.id)}>자세히 보기</button>
           </Card>
         ))}
       </Reviews>
@@ -201,10 +207,6 @@ const Card = styled.div`
   h3 {
     margin: 0.5rem 0;
     color: var(--button--color);
-  }
-
-  p {
-    color: var(--hover--color);
   }
 
   button {

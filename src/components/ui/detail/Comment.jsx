@@ -7,7 +7,7 @@ import { useUserContext } from '../../../context/userContext'
 import { useState } from 'react'
 
 const Comment = ({ comment, modify, setModify }) => {
-  const session = useUserContext()
+  const { user } = useUserContext()
 
   const [commentModify, setCommnetModify] = useState(false)
   const [modifyContent, setModifyContent] = useState('')
@@ -52,7 +52,7 @@ const Comment = ({ comment, modify, setModify }) => {
           </div>
         </CommentInfoBox>
         <CommentBtnGroup>
-          {session.user.id === comment.user_id && (
+          {user.id === comment.user_id && (
             <>
               {!commentModify && <button onClick={handleModifyComnnet}>수정</button>}
               <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
