@@ -32,8 +32,8 @@ const PostPage = () => {
     if (error) {
       return alert(error.message)
     }
-    setPost([...post, ...data])
-
+    setPost([...post, ...data]);
+    
     navigate(`/list`)
   }
 
