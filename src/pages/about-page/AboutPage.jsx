@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import SectionOne from './SectionOne'
-import SectionTwo from './SectionTwo'
-import SectionThree from './SectionThree'
+import SectionOne from '../../components/ui/about/SectionOne'
+import SectionTwo from '../../components/ui/about/SectionTwo'
+import SectionThree from '../../components/ui/about/SectionThree'
 
 const AboutPage = () => {
   return (
