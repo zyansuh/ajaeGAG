@@ -1,28 +1,28 @@
 import styled from 'styled-components'
 
-const CatchLine = () => {
+const TitleAbout = () => {
   return (
     <>
       <CatchLineContainer>
-        <h1>마침내 세계가 놀랄 글로벌 아재개그를 탄생시킬</h1>
-        <h1>아재슐랭의 베일이 벗겨진다!</h1>
+        <p>마침내 세계가 놀랄 글로벌 아재개그를 탄생시킬</p>
+        <p>아재슐랭의 베일이 벗겨진다!</p>
       </CatchLineContainer>
       <TitleContainer>
-        <h1>글로벌 아재개그 육성 프로젝트</h1>
-        <h2>아재슐랭</h2>
+        <p>글로벌 아재개그 육성 프로젝트</p>
+        <h1>아재슐랭</h1>
       </TitleContainer>
     </>
   )
 }
 
-export default CatchLine
+export default TitleAbout
 
 const CatchLineContainer = styled.div`
   text-align: center;
   font-size: 30px;
   margin-top: 50px;
 
-  h1 {
+  p {
     padding: 10px;
   }
 `
@@ -33,13 +33,12 @@ const TitleContainer = styled.div`
   margin-top: 20px;
   font-weight: 700;
 
-  h1 {
+  p {
     padding: 5px;
-
     margin-bottom: 10px;
   }
 
-  h2 {
+  h1 {
     font-size: 45px;
   }
 `

@@ -1,13 +1,13 @@
 import styled from 'styled-components'
-import CatchLine from '../../components/ui/about/CatchLine'
-import Content from '../../components/ui/about/Content'
+import TitleAbout from '../../components/ui/about/TitleAbout'
+import ContentAbout from '../../components/ui/about/ContentAbout'
 
 const AboutPage = () => {
   return (
     <>
       <AboutContainer>
-        <CatchLine />
-        <Content />
+        <TitleAbout />
+        <ContentAbout />
       </AboutContainer>
     </>
   )

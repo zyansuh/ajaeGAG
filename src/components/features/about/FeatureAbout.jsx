@@ -1,20 +1,19 @@
 import styled from 'styled-components'
 
-const Feature = ({ title, description }) => {
+const FeatureAbout = ({ title, description }) => {
   return (
     <FeatureContainer>
-      <h2>{title}</h2>
+      <h1>{title}</h1>
       <p>{description}</p>
     </FeatureContainer>
   )
 }
 
-export default Feature
+export default FeatureAbout
 
 const FeatureContainer = styled.div`
-  margin-bottom: 20px;
 
-  h2 {
+  h1 {
     font-size: 16px;
     font-weight: bold;
     margin: 10px 0;

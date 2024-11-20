@@ -11,11 +11,13 @@ import ListPage from '../../pages/list-page/ListPage'
 import Layout from '../layout/Layout'
 import UpdatePage from '../../pages/update-page/UpdatePage'
 import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Router = () => {
   return (
     <>
       <BrowserRouter>
+        <ToastContainer />
         <GlobalStyle />
         <Layout>
           <Routes>
@@ -31,7 +33,6 @@ const Router = () => {
           </Routes>
         </Layout>
       </BrowserRouter>
-      <ToastContainer />
     </>
   )
 }
