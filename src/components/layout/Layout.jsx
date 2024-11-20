@@ -2,16 +2,20 @@ import styled from 'styled-components'
 import Header from './Header'
 import Footer from './Footer'
 import { Outlet } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 const Layout = ({ children }) => {
+  const location = useLocation()
+  const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/signup'
+
   return (
     <div>
-      <Header />
+      {!hideHeaderFooter && <Header />}
       <LayoutContainer>
         <Outlet /> {/* Outlet을 사용해 중첩 라우팅 */}
         {children} {/* 직접 전달된 자식 컴포넌트 렌더링 */}
       </LayoutContainer>
-      <Footer />
+      {!hideHeaderFooter && <Footer />}
     </div>
   )
 }

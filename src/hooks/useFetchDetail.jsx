@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-
 import supabase from '../supabase/supabaseClient'
 
 const useFetchDetail = (id) => {
