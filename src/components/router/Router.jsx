@@ -11,11 +11,13 @@ import ListPage from '../../pages/list-page/ListPage'
 import Layout from '../layout/Layout'
 import UpdatePage from '../../pages/update-page/UpdatePage'
 import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Router = () => {
   return (
     <>
       <BrowserRouter>
+        <ToastContainer />
         <GlobalStyle />
         <Layout>
           <Routes>
@@ -25,13 +27,12 @@ const Router = () => {
             <Route path="signup" element={<SignUpPage />} />
             <Route path="mypage" element={<MyPage />} />
             <Route path="list" element={<ListPage />} />
-            <Route path="list/:id" element={<ListDetailPage />} />
+            <Route path="/list/:id" element={<ListDetailPage />} />
             <Route path="post" element={<PostPage />} />
             <Route path="/post/:id" element={<UpdatePage />} />
           </Routes>
         </Layout>
       </BrowserRouter>
-      <ToastContainer />
     </>
   )
 }
