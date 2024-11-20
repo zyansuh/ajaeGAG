@@ -19,8 +19,8 @@ const UpdattePage = () => {
         return alert(error.message)
       }
       // 성공 시 데이터를 Post state에 저장
-      setTitleName(data[0].title)
-      setCorrect(data[0].correct)
+      setTitleName(data[0].question)
+      setCorrect(data[0].answer)
     }
     // 함수 실행
     fetchPost()
@@ -29,7 +29,7 @@ const UpdattePage = () => {
   //추가
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const { data, error } = await supabase.from('posts').update({ title: titleName, correct: correct }).eq('id', id)
+    const { data, error } = await supabase.from('posts').update({ question: titleName, answer: correct }).eq('id', id)
     if (error) {
       return alert(error.message)
     }
