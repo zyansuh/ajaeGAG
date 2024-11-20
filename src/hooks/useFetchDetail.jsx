@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import supabase from "../suapbase/supabaseClient"
+import supabase from "../supabase/supabaseClient"
 
 const useFetchDetail = (id) => {
   const [loading, setLoading] = useState(false)
@@ -14,7 +14,7 @@ const useFetchDetail = (id) => {
         const { data, error: supabaseError } = await supabase
           .from('posts')
           .select('*, comments(*, users(*)), likes(*), users(*)')
-          .eq('id', '2f891c85-d1e0-4004-8bb2-19eac02aa3c6') //id 값으로 변경해서 확인
+          .eq('id', id) //id 값으로 변경해서 확인
 
         if (supabaseError) {
           setError(supabaseError)

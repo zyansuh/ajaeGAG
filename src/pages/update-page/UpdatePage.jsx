@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import  supabase  from '../../suapbase/supabaseClient'
+import supabase from '../../supabase/supabaseClient'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const UpdattePage = () => {
