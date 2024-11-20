@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
+import { useUserContext } from '../../context/userContext'
+
 const Header = () => {
+  const session = useUserContext()
+
   return (
     <HeaderContainer>
       <nav>
@@ -17,8 +21,14 @@ const Header = () => {
           </li>
         </ul>
         <div className="nav-links">
-          <LoginLink to="/login">로그인</LoginLink>
-          <SignupLink to="/signup">회원가입</SignupLink>
+          {session?.user ? (
+            <div>{session.user.user_metadata.nickname}님 환영합니다.</div>
+          ) : (
+            <>
+              <LoginLink to="/login">로그인</LoginLink>
+              <SignupLink to="/signup">회원가입</SignupLink>
+            </>
+          )}
         </div>
       </nav>
     </HeaderContainer>

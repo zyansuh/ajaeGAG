@@ -1,4 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import GlobalStyle from '../styled-component/GlobalStyle'
 import AboutPage from '../../pages/about-page/AboutPage'
 import LoginPage from '../../pages/login-page/LoginPage'
@@ -10,13 +14,13 @@ import HomePage from '../../pages/home-page/HomePage'
 import ListPage from '../../pages/list-page/ListPage'
 import Layout from '../layout/Layout'
 import UpdatePage from '../../pages/update-page/UpdatePage'
-import { ToastContainer } from 'react-toastify'
 
 const Router = () => {
   return (
     <>
       <BrowserRouter>
         <GlobalStyle />
+        <ToastContainer />
         <Layout>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -31,7 +35,6 @@ const Router = () => {
           </Routes>
         </Layout>
       </BrowserRouter>
-      <ToastContainer />
     </>
   )
 }

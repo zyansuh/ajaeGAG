@@ -1,14 +1,25 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
-import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 import { toast } from 'react-toastify'
 
+import styled from 'styled-components'
+
 import supabase from '../../../supabase/supabaseClient'
+
+import { useUserContext } from '../../../context/userContext'
 
 import changeTime from '../../../utils/changeTime'
 
 const DetailPost = ({ postItem }) => {
+  const session = useUserContext()
+
+  console.log(postItem)
+  const [likesCount, setLikesCount] = useState(postItem.likes.length)
+  const [isLiked, setIsLiked] = useState(false)
+
+  // console.log(session)
   // provider로 현재 유저정보 가져오기
   const navigate = useNavigate()
 
@@ -25,26 +36,60 @@ const DetailPost = ({ postItem }) => {
     navigate('/list')
   }
 
+  useEffect(() => {
+    const getLikedData = async () => {
+      // 해당글에 있는 좋아요 배열을 모두 가져옴
+      const { data, error } = await supabase.from('likes').select('*').eq('post_id', postItem.id)
+
+      if (error) {
+        toast.error('에러가 발생했습니다.')
+      }
+
+      // 현재 유저와 게시글에 좋아요를 누른 유저가 있는지 여부 확인
+      const isSameUser = data.some((like) => like.user_id === session.user.id)
+
+      setIsLiked(isSameUser)
+    }
+
+    getLikedData()
+  }, [postItem.id, session.user.id])
+
   // 좋아요 추가
   const handlePostLike = async (id) => {
-    try {
-      if (user) {
-        const { data, error } = await supabase
-          .from('likes')
-          .insert([{ user_id: user.id, post_id: id }]) //유저 정보 있을 때만 가능
-          .select()
+    const { error } = await supabase.from('likes').select('*')
 
-        if (error) {
-          toast.warning('좋아요를 추가할 수 없습니다. 다시 시도 해주세요.')
-          return
-        }
+    if (error) throw error
 
-        toast.success('게시글 좋아요를 눌렀습니다.')
-      } else {
-        toast.warn('로그인 후에 이용해 주세요.')
-        return
+    if (isLiked) {
+      const { error } = await supabase.from('likes').delete().eq('user_id', session.user.id)
+
+      if (error) {
+        toast.error('좋아요를 취소할 수 없습니다.')
       }
-    } catch (error) {}
+
+      setLikesCount((pre) => pre - 1)
+      setIsLiked(false)
+      toast.success('좋아요를 취소했습니다.')
+    } else {
+      const { error } = await supabase
+        .from('likes')
+        .insert([
+          {
+            user_id: session.user.id,
+            post_id: id,
+            created_at: new Date()
+          }
+        ])
+        .select()
+
+      if (error) {
+        toast.error('게시글에 좋아요를 누를 수 없습니다.')
+      }
+
+      setIsLiked(true)
+      setLikesCount((pre) => pre + 1)
+      toast.success('게시글에 좋아요를 눌렀습니다!')
+    }
   }
 
   return (
@@ -52,8 +97,12 @@ const DetailPost = ({ postItem }) => {
       <DetailPostTitleContainer>
         <DetailPostTitle>{postItem.question}</DetailPostTitle>
         <DetailPostBtnGroup>
-          <button>수정</button>
-          <button onClick={() => handleDeletePost(postItem.id)}>삭제</button>
+          {postItem.user_id === session.user.id && (
+            <>
+              <button onClick={() => navigate(`/post/${postItem.id}`)}>수정</button>
+              <button onClick={() => handleDeletePost(postItem.id)}>삭제</button>
+            </>
+          )}
         </DetailPostBtnGroup>
       </DetailPostTitleContainer>
       <DetailPostUersContainer>
@@ -66,11 +115,9 @@ const DetailPost = ({ postItem }) => {
       <DetailPostAnswerContainer>
         <DetailPostAnswer>{postItem.answer}</DetailPostAnswer>
         <div>
-          <DetailPostLikeBtn>
+          <DetailPostLikeBtn onClick={() => handlePostLike(postItem.id)}>
             <Like />
-            <DetailPostLikeCount onClick={() => handlePostLike(postItem.id)}>
-              {postItem.likes.length}
-            </DetailPostLikeCount>
+            <DetailPostLikeCount>{likesCount}</DetailPostLikeCount>
           </DetailPostLikeBtn>
         </div>
       </DetailPostAnswerContainer>
@@ -92,9 +139,10 @@ const DetailPostTitleContainer = styled.div`
 `
 
 const DetailPostTitle = styled.h3`
-  font-size: 55px;
+  font-size: 50px;
   font-weight: 500;
   letter-spacing: 1px;
+  word-break: keep-all;
 `
 
 const DetailPostBtnGroup = styled.div`
@@ -149,7 +197,7 @@ const DetailPostLikeBtn = styled.button`
   border-radius: 8px;
   padding: 5px 10px;
   cursor: pointer;
-
+}
 `
 
 const DetailPostLikeCount = styled.span`
