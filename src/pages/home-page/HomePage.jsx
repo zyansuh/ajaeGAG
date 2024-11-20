@@ -107,7 +107,7 @@ const HomePage = () => {
             {/* 질문 */}
             <h3>{review.question}</h3>
             {/* 자세히 보기 버튼: Detail Page로 이동 */}
-            <button onClick={() => navigate(`/detail/${review.id}`)}>자세히 보기</button>
+            <button onClick={() => navigate(`/list/${review.id}`)}>자세히 보기</button>
           </Card>
         ))}
       </Reviews>

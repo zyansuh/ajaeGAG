@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Header from './Header'
 import Footer from './Footer'
 
-const Layout = ({ children }) => {
+const Layout = () => {
   const location = useLocation()
   const hideHeaderFooter = location.pathname === '/login' || location.pathname === '/signup'
 
@@ -11,8 +11,7 @@ const Layout = ({ children }) => {
     <div>
       {!hideHeaderFooter && <Header />}
       <LayoutContainer>
-        <Outlet /> {/* Outlet을 사용해 중첩 라우팅 */}
-        {children} {/* 직접 전달된 자식 컴포넌트 렌더링 */}
+        <Outlet /> {/* 중첩 라우트 렌더링 */}
       </LayoutContainer>
       {!hideHeaderFooter && <Footer />}
     </div>

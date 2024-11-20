@@ -19,19 +19,19 @@ const Router = () => {
       <BrowserRouter>
         <ToastContainer />
         <GlobalStyle />
-        <Layout>
-          <Routes>
+        <Routes>
+          <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="about" element={<AboutPage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="signup" element={<SignUpPage />} />
             <Route path="mypage" element={<MyPage />} />
             <Route path="list" element={<ListPage />} />
             <Route path="list/:id" element={<ListDetailPage />} />
             <Route path="post" element={<PostPage />} />
-            <Route path="/post/:id" element={<UpdatePage />} />
-          </Routes>
-        </Layout>
+            <Route path="post/:id" element={<UpdatePage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signup" element={<SignUpPage />} />
+          </Route>
+        </Routes>
       </BrowserRouter>
     </>
   )
