@@ -21,7 +21,6 @@ const PostPage = () => {
         console.error("유저 정보를 가져오는 중 에러 발생:", userError.message);
         return;
       }
-  
       if (userData && userData.user && userData.user.id) {
         const userId = userData.user.id;
         setUserId(userId); // 유저 ID 설정
@@ -37,14 +36,12 @@ const PostPage = () => {
           console.error("Post 데이터를 가져오는 중 에러 발생:", postsError.message);
           return;
         }
-  
         setPost(postsData); // Post 데이터 저장
         console.log("Fetched Posts:", postsData); // 디버깅용
       } else {
         console.warn("유효한 유저가 없습니다. 로그인 상태를 확인하세요.");
       }
-    };
-  
+    };  
     fetchPost();
   }, []); // 한 번만 실행
   
