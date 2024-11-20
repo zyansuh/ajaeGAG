@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
 import supabase from '../../supabase/supabaseClient'
+import { useNavigate } from 'react-router-dom'
 
 const PostPage = () => {
   const [post, setPost] = useState([])
