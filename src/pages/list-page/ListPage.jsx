@@ -37,7 +37,7 @@ const ListPage = () => {
       setData((prevData) => [...prevData, ...newData]) // 기존 데이터에 새로운 데이터 추가
       // 데이터가 더 이상 없다면 hasMore를 false로 설정
       if (newData.length > 0) {
-        setHasMore(true) // newData.length 추가
+        setHasMore(true)
       } else {
         setHasMore(false) // 데이터가 없으면 더 이상 데이터를 불러오지 않도록 설정
       }
@@ -47,21 +47,13 @@ const ListPage = () => {
   // useInView 훅을 사용하여 마지막 요소가 화면에 들어왔을 때 추가 데이터를 불러오기
   const { ref: lastElementRef, inView } = useInView({
     triggerOnce: false, // 여러 번 트리거할 수 있도록 설정
-    threshold: 1.0, // 화면 하단 80%까지 스크롤이 내려가면 호출
-    onChange: (inView) => {
-      // inView가 true일 때만 데이터를 불러오기
-      // console.log(inView, hasMore)
-      // console.log('trigger됨')
-      if (inView && !loading && hasMore) {
-        fetchData() // 화면에 마지막 요소가 보이면 fetchData 호출
-      }
-    }
+    threshold: 1.0 // 화면 하단 100%까지 스크롤이 내려가면 호출
   })
 
   useEffect(() => {
     // inView가 true일 때만 데이터를 불러오기
     if (inView && !loading && hasMore) {
-      fetchData() // 화면에 마지막 요소가 보이면 fetchData 호출
+      fetchData()
     }
   }, [inView, loading, hasMore])
 
@@ -84,8 +76,8 @@ const ListPage = () => {
             <Title>{data.question}</Title>
           </Article>
         ))}
-        <div ref={lastElementRef}></div>
         {loading && <Loading>Loading more...</Loading>} {/* 추가 데이터 로딩 중 표시 */}
+        <div ref={lastElementRef}></div>
       </ListContainer>
     </>
   )

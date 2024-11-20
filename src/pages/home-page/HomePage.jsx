@@ -56,7 +56,6 @@ const HomePage = () => {
           `
           id,
           question,
-          answer,
           created_at,
           users (nickname, url_img)
         `
@@ -105,14 +104,10 @@ const HomePage = () => {
               <img src={review.users?.url_img || '/default-avatar.png'} alt="프로필" />
               <span>{review.users?.nickname || '익명'}</span>
             </Header>
-            {/* 질문과 답변 */}
-            <h3>{review.question}</h3>
             {/* 질문 */}
-            <p>{review.answer}</p>
-            {showAnswers[review.id] && <p>{review.answer}</p>} {/* 답변 (기본적으로 숨김) */}
-            <button onClick={() => toggleAnswerVisibility(review.id)}>
-              {showAnswers[review.id] ? '답 숨기기' : '자세히 보기'} {/* 버튼 텍스트 변경 */}
-            </button>
+            <h3>{review.question}</h3>
+            {/* 자세히 보기 버튼: Detail Page로 이동 */}
+            <button onClick={() => navigate(`/detail/${review.id}`)}>자세히 보기</button>
           </Card>
         ))}
       </Reviews>
@@ -139,6 +134,7 @@ const Main = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-bottom: 50px;
 `
 
 const Section = styled.section`
