@@ -17,6 +17,7 @@ const Comment = ({ comment, modify, setModify }) => {
 
     if (error) {
       toast.error('댓글을 삭제할 수 없습니다.')
+      return
     }
 
     setModify(!modify)
@@ -34,6 +35,7 @@ const Comment = ({ comment, modify, setModify }) => {
 
     if (error) {
       toast.error('댓글을 수정할 수 없습니다.')
+      return
     }
 
     setModify(!modify)

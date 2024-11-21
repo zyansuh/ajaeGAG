@@ -15,6 +15,8 @@ import changeTime from '../../../utils/changeTime'
 const DetailPost = ({ postItem }) => {
   const { user } = useUserContext()
 
+  console.log('user', user)
+
   console.log(postItem)
   const [likesCount, setLikesCount] = useState(postItem.likes.length)
   const [isLiked, setIsLiked] = useState(false)
@@ -43,6 +45,7 @@ const DetailPost = ({ postItem }) => {
 
       if (error) {
         toast.error('에러가 발생했습니다.')
+        return
       }
 
       // 현재 유저와 게시글에 좋아요를 누른 유저가 있는지 여부 확인
@@ -65,6 +68,7 @@ const DetailPost = ({ postItem }) => {
 
       if (error) {
         toast.error('좋아요를 취소할 수 없습니다.')
+        return
       }
 
       setLikesCount((pre) => pre - 1)
