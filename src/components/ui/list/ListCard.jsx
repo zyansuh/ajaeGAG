@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import changeTime from '../../../utils/changeTime'
-import supabase from '../../../supabase/supabaseClient'
+import { useUserContext } from '../../../context/userContext'
 
 const ListCard = ({ post }) => {
+  const { user } = useUserContext()
   const navigate = useNavigate()
 
   const goToDetail = (post) => {
@@ -15,11 +16,9 @@ const ListCard = ({ post }) => {
     navigate(`/post/${post.id}`)
   }
 
-  const currentUser = supabase.users?.id
-
   return (
     <CardContainer key={post.id} onClick={() => goToDetail(post)}>
-      {currentUser === post.users.id && <Button onClick={(e) => goToUpdate(e, post)}>수정</Button>}
+      {post.user_id === user.id && <Button onClick={(e) => goToUpdate(e, post)}>수정</Button>}
       <NameContainer>
         <Name>{post.users.nickname}</Name>
         <Date>({changeTime(post.created_at)})</Date>
