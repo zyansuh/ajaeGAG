@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router-dom'
+
 import styled from 'styled-components'
+
 import changeTime from '../../../utils/changeTime'
+
 import { useUserContext } from '../../../context/userContext'
 
 const ListCard = ({ post }) => {

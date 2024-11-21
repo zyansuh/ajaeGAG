@@ -10,18 +10,28 @@ import supabase from '../../../supabase/supabaseClient'
 
 import { useUserContext } from '../../../context/userContext'
 
+import ProfileImg from '../../common/ProfileImg'
+
 import changeTime from '../../../utils/changeTime'
 
 const DetailPost = ({ postItem }) => {
   const { user } = useUserContext()
 
-  console.log('user', user)
+  const [profile, setProfile] = useState('')
 
-  console.log(postItem)
+  useEffect(() => {
+    const getProfileImg = async () => {
+      const { data } = await supabase.from('users').select('url_img').eq('id', user.id).single()
+      setProfile(data)
+      console.log(data)
+    }
+
+    getProfileImg()
+  }, [user.id])
+
   const [likesCount, setLikesCount] = useState(postItem.likes.length)
   const [isLiked, setIsLiked] = useState(false)
 
-  // console.log(session)
   // provider로 현재 유저정보 가져오기
   const navigate = useNavigate()
 
@@ -111,7 +121,7 @@ const DetailPost = ({ postItem }) => {
         </DetailPostBtnGroup>
       </DetailPostTitleContainer>
       <DetailPostUersContainer>
-        <DetailPostUserImg src={postItem.users.url_img ? postItem.users.url_img : null} alt="user Profile" />
+        <ProfileImg imgUrl={profile ? profile.url_img : null} $width={50} $height={50} />
         <DetailPostUserName>
           {postItem.users.nickname ? postItem.users.nickname : postItem.users.email}
         </DetailPostUserName>
@@ -161,13 +171,6 @@ const DetailPostUersContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-`
-
-const DetailPostUserImg = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: orange;
 `
 
 const DetailPostUserName = styled.p`

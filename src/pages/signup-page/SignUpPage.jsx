@@ -1,9 +1,15 @@
 import { useState, useRef } from 'react'
+
 import { useNavigate } from 'react-router-dom'
-import ProfileImageUpload from '../../components/features/login/ProfileImageUpload'
+
 import { toast } from 'react-toastify'
-import supabase from '../../supabase/supabaseClient'
+
 import styled from 'styled-components'
+
+import ProfileImageUpload from '../../components/features/login/ProfileImageUpload'
+
+import supabase from '../../supabase/supabaseClient'
+
 import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa'
 
 const SignUpPage = () => {

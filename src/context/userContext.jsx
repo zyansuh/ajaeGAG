@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
+
 import { toast } from 'react-toastify'
+
 import supabase from '../supabase/supabaseClient'
 
 // Context 생성
@@ -11,6 +13,17 @@ export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
+    const fetchSession = async () => {
+      const {
+        data: { session }
+      } = await supabase.auth.getSession()
+
+      console.log(session)
+      setSession(session)
+      setUser(session ? session.user : null)
+    }
+
+    fetchSession()
     // 로그인 상태 변화 감지
     const {
       data: { subscription }

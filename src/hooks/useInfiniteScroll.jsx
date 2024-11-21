@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
+
 import { useInView } from 'react-intersection-observer'
+
 import useFetchPosts from './useFetchPosts'
 
 const useInfiniteScroll = () => {

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import TitleAbout from '../../components/ui/about/TitleAbout'
 import ContentAbout from '../../components/ui/about/ContentAbout'
 

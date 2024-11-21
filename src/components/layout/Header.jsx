@@ -4,7 +4,6 @@ import { toast } from 'react-toastify'
 
 import styled from 'styled-components'
 
-// import { useUserContext } from '../features/userContext/UserContextProvider'
 import { useUserContext } from '../../context/userContext'
 
 import supabase from '../../supabase/supabaseClient'
