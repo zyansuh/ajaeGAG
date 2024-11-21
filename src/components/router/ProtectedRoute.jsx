@@ -7,7 +7,7 @@ import { useUserContext } from '../../context/userContext'
 const ProtectedRoute = () => {
   const { user } = useUserContext()
 
-  if (!user && location.pathname !== '/signup') {
+  if (!user) {
     toast.warning('로그인 후 이용해 주세요!')
     return <Navigate to="/login" replace />
   }

@@ -158,7 +158,11 @@ function MyPage() {
     <Container>
       <Title>마이페이지</Title>
       <ProfileCard>
-        <ProfileImageUpload onImageSelect={handleImageSelect} currentImage={urlImg} />
+        <ProfileImageUpload
+          onImageSelect={handleImageSelect}
+          currentImage={urlImg}
+          disabled={user?.app_metadata.provider === 'google'}
+        />
 
         <Form onSubmit={(e) => e.preventDefault()}>
           <InputGroup>
