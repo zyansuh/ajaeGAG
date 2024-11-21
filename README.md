@@ -1,104 +1,148 @@
-```
-project-root/
-│
-├── src/                                # 애플리케이션 소스 코드 디렉토리
-│   ├── service/                        # 서비스 관련 파일 (예: API 클라이언트, 유틸리티)
-│   │   └── supabaseClient.js           # Supabase 클라이언트를 생성하고 내보내는 파일
-│   │
-│   ├── pages/                          # 페이지 단위 컴포넌트
-│   │   ├── home-page/                  # 홈 페이지 관련 파일
-│   │   │   └── HomePage.jsx            # 메인 홈 페이지 컴포넌트
-│   │   │
-│   │   ├── list-page/                  # 리스트 페이지 관련 파일
-│   │   │   └── ListPage.jsx            # 리스트 페이지 컴포넌트
-│   │   │
-│   │   ├── post-page/                  # 게시물 작성 페이지 관련 파일
-│   │   │   └── PostPage.jsx            # 게시물 작성 페이지 컴포넌트
-│   │   │
-│   │   ├── signup-page/                # 회원가입 페이지 관련 파일
-│   │   │   └── SignupPage.jsx          # 회원가입 페이지 컴포넌트
-│   │   │
-│   │   ├── my-page/                    # 마이페이지 관련 파일
-│   │   │   └── MyPage.jsx              # 마이페이지 컴포넌트
-│   │   │
-│   │   └── about-page/                 # 정보 페이지 관련 파일
-│   │       └── AboutPage.jsx           # 정보 페이지 컴포넌트
-│   │
-│   ├── components/                     # 재사용 가능한 UI 컴포넌트 디렉토리
-│   │   ├── layout/                     # 레이아웃 관련 컴포넌트
-│   │   │   └── Layout.jsx              # 페이지 공통 레이아웃 컴포넌트
-│   │   │
-│   │   ├── router/                     # 라우터 관련 파일
-│   │   │   └── Router.jsx              # 라우터 설정 파일
-│   │   │
-│   │   ├── styled-component/           # 전역 스타일 관련 파일
-│   │   │   └── GlobalStyle.jsx         # styled-components로 작성한 글로벌 스타일
-│   │   │
-│   │   └── ...                         # 기타 재사용 가능한 컴포넌트들
-│   │
-│   ├── assets/                         # 이미지, 아이콘, 폰트와 같은 정적 자산
-│   │   ├── images/                     # 프로젝트에서 사용하는 이미지
-│   │   │   ├── logo.png                # 로고 이미지
-│   │   │   └── ...                     # 기타 이미지 파일
-│   │   └── react.svg                   # React 로고 (예제 파일)
-│   │
-│   └── context/                        # 전역 상태 관리(Context API 사용 시)
-│       └── ...                         # 상태 관리 관련 파일들
-│
-├── public/                             # 정적 파일들 (빌드 시 복사됨)
-│   ├── vite.svg                        # Vite 로고
-│   ├── favicon.ico                     # 브라우저 탭에 표시되는 파비콘
-│   └── index.html                      # React 앱이 주입되는 HTML 파일
-│
-├── .env                                # 환경 변수 파일 (API 키 및 URL 저장)
-├── .gitignore                          # Git 버전 관리에서 제외할 파일 및 디렉토리
-├── package.json                        # 프로젝트 메타데이터 및 의존성 관리 파일
-├── README.md                           # 프로젝트 설명 파일
-├── yarn.lock / package-lock.json       # 의존성 고정 파일 (Yarn 또는 NPM 사용 시 생성)
-├── vite.config.js                      # Vite 설정 파일
-└── index.html                          # 애플리케이션의 기본 HTML 파일
+# README: AjaeGAG
+
+---
+
+## 📚 프로젝트 개요
+**AjaeGAG**은 유저가 아재개그를 작성하고, 공유하며 평가할 수 있는 플랫폼입니다. 본 프로젝트는 **React**와 **Supabase**를 기반으로 제작되었으며, 소셜 로그인을 통해 간편한 인증 및 다양한 유저 간 상호작용을 제공합니다.
+
+---
+
+## 🚀 주요 기능
+1. **유저 인증 및 관리**
+   - 소셜 로그인 (Google)
+   - 프로필 이미지 업로드 및 회원 정보 수정
+2. **게시글 관리**
+   - 게시글 작성, 수정, 삭제
+   - 게시글 목록 조회 및 무한 스크롤
+3. **댓글 기능**
+   - 댓글 작성, 수정, 삭제
+   - 실시간 업데이트
+4. **좋아요 기능**
+   - 게시글 좋아요 및 취소
+5. **홈 화면 AI 농담 추천**
+   - 농담 API 연동 및 번역 기능
+
+---
+
+## 🛠️ 기술 스택
+- **Frontend**: React, Styled-components
+- **Backend**: Supabase (인증 및 데이터베이스 관리)
+- **Routing**: React-Router
+- **배포**: Vercel
+
+---
+
+## 📁 폴더 구조
 
 ```
-각 디렉토리 및 파일 역할
-1. src/ (소스 코드 디렉토리)
-service/
+📦 AjaeGAG
+├── 📂 .vscode/           # VSCode 환경 설정 파일
+├── 📂 node_modules/      # 프로젝트 종속성
+├── 📂 public/            # 정적 파일
+│   ├── 📂 images/        # 이미지 파일 (로고 등)
+│   └── vite.svg          # Vite 기본 파일
+├── 📂 src/               # 소스 코드
+│   ├── 📂 assets/        # 공통 자산
+│   │   └── react.svg
+│   ├── 📂 components/    # UI 컴포넌트 및 기능
+│   │   ├── 📂 common/    # 재사용 가능한 컴포넌트 (프로필 이미지 등)
+│   │   ├── 📂 features/  # 주요 기능 관련 컴포넌트
+│   │   │   ├── about/
+│   │   │   ├── detail/
+│   │   │   ├── login/
+│   │   │   ├── router/
+│   │   │   └── styled-component/
+│   │   └── 📂 ui/        # UI 레이아웃 및 디자인
+│   │       ├── about/
+│   │       ├── detail/
+│   │       └── list/
+│   ├── 📂 context/       # 전역 상태 관리 (UserContext)
+│   ├── 📂 data/          # 정적 데이터
+│   ├── 📂 hooks/         # 커스텀 React Hooks
+│   ├── 📂 pages/         # 각 페이지 컴포넌트
+│   │   ├── about-page/
+│   │   ├── home-page/
+│   │   ├── list-detail-page/
+│   │   ├── list-page/
+│   │   ├── login-page/
+│   │   ├── my-page/
+│   │   ├── post-page/
+│   │   ├── signup-page/
+│   │   └── update-page/
+│   ├── 📂 service/       # 서비스 관련 유틸리티 (예: Supabase 클라이언트)
+│   ├── 📂 supabase/      # Supabase 초기화 파일
+│   ├── 📂 utils/         # 유틸리티 함수
+│   ├── App.jsx           # 최상위 React 컴포넌트
+│   └── main.jsx          # 엔트리 포인트
+├── .env                  # 환경 변수
+├── .eslintrc.js          # ESLint 설정
+├── .gitignore            # Git 무시 파일
+├── index.html            # HTML 템플릿
+├── package.json          # 프로젝트 정보 및 종속성
+├── README.md             # 프로젝트 설명 파일
+├── vite.config.js        # Vite 설정
+└── yarn.lock             # Yarn 종속성 버전 고정
+```
 
-supabaseClient.js
-Supabase API 클라이언트를 생성하고 내보냄.
-다른 파일에서 쉽게 import하여 사용할 수 있도록 함.
-pages/
+---
 
-각 페이지 컴포넌트를 관리.
-페이지별 디렉토리를 만들어 컴포넌트 파일을 저장.
-예: HomePage.jsx는 홈 페이지를 구성, ListPage.jsx는 리스트 페이지를 구성.
-components/
+## 🛠️ 주요 설정 파일
+### `.env`
+```plaintext
+VITE_SUPABASE_URL=<Supabase URL>
+VITE_SUPABASE_KEY=<Supabase Key>
+```
 
-재사용 가능한 컴포넌트를 저장.
-layout/
-페이지 공통 레이아웃 컴포넌트.
-styled-component/
-글로벌 스타일 설정 파일.
-assets/
+### `vite.config.js`
+Vite 기본 설정으로 React 환경에 최적화된 빌드 설정.
 
-프로젝트에서 사용하는 정적 자산 저장.
-images/
-로고, 배경 이미지, 기타 디자인 요소.
-context/
+---
 
-React Context API를 사용한 전역 상태 관리 파일 저장.
-2. public/ (정적 파일)
-앱이 빌드될 때 정적 파일이 그대로 복사되는 디렉토리.
-index.html
-React 애플리케이션이 삽입되는 HTML 파일.
-3. 루트 디렉토리
-.env
-API 키 및 프로젝트 URL을 저장.
-예: VITE_SUPABASE_KEY, VITE_SUPABASE_URL.
-.gitignore
-Git 버전 관리에서 제외할 파일.
-.env, node_modules, build 디렉토리 등이 포함됨.
-package.json
-프로젝트의 종속성과 스크립트를 관리.
-vite.config.js
-Vite 프로젝트 설정 파일.
+## 📖 주요 코드 설명
+### **UserContext (전역 상태 관리)**
+- **파일**: `src/context/userContext.jsx`
+- **역할**: 유저 인증 및 로그인 상태 관리.
+
+### **Supabase 클라이언트**
+- **파일**: `src/supabase/supabaseClient.js`
+- **역할**: Supabase API와의 상호작용 초기화.
+
+---
+
+
+## 🧩 설치 및 실행 방법
+1. **프로젝트 클론**
+   ```bash
+   git clone https://github.com/username/AjaeGAG.git
+   cd AjaeGAG
+   ```
+
+2. **종속성 설치**
+   ```bash
+   yarn install
+   ```
+
+3. **환경 변수 설정**
+   `.env` 파일에 Supabase URL과 Key 추가.
+
+4. **개발 서버 실행**
+   ```bash
+   yarn dev
+   ```
+
+5. **빌드**
+   ```bash
+   yarn build
+   ```
+
+6. **배포**
+   Vercel 또는 기타 호스팅 서비스 이용.
+
+---
+
+## 📞 문의
+- **작성자**: [4조참치](mailto:example@example.com)
+- **GitHub**: [프로젝트 링크](https://github.com/zyansuh/ajaeGAG)
+- **배포사이트**: [아재슐랭](https://ajae-gag-final.vercel.app/)
+---
 
