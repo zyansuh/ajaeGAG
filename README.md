@@ -141,7 +141,7 @@ Vite 기본 설정으로 React 환경에 최적화된 빌드 설정.
 ---
 
 ## 📞 문의
-- **작성자**: [4조참치](mailto:example@example.com)
+- **작성자**: [4조참치](https://conscious-resonance-3c4.notion.site/12f22ab31f438094a549f09010acd64f?pvs=4)
 - **GitHub**: [프로젝트 링크](https://github.com/zyansuh/ajaeGAG)
 - **배포사이트**: [아재슐랭](https://ajae-gag-final.vercel.app/)
 ---
