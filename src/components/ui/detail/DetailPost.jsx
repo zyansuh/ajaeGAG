@@ -106,7 +106,7 @@ const DetailPost = ({ postItem }) => {
         </DetailPostBtnGroup>
       </DetailPostTitleContainer>
       <DetailPostUersContainer>
-        <DetailPostUserImg src={postItem.users.url_img ? postItem.user.url_img : null} alt="user Profile" />
+        <DetailPostUserImg src={postItem.users.url_img ? postItem.users.url_img : null} alt="user Profile" />
         <DetailPostUserName>
           {postItem.users.nickname ? postItem.users.nickname : postItem.users.email}
         </DetailPostUserName>

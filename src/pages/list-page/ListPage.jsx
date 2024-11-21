@@ -6,6 +6,7 @@ import useInfiniteScroll from '../../hooks/useInfiniteScroll'
 const ListPage = () => {
   const { data, loading, lastElementRef } = useInfiniteScroll()
 
+
   if (loading && data.length === 0) return <p>Loading...</p>
 
   return (
