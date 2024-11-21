@@ -12,6 +12,13 @@ const GlobalStyle = createGlobalStyle`
       --hover--color: #3c3c3c;
       --border--color: #d3d3d3;
   }
+  
+@font-face {
+    font-family: 'KCC-Ahnchangho';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/KCC-Ahnchangho.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 
   * {
     // box sizing 리셋하기

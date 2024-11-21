@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ProfileImageUpload from '../../components/features/login/ProfileImageUpload'
 import { toast } from 'react-toastify'
 import supabase from '../../supabase/supabaseClient'
+import styled from 'styled-components'
+import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa'
 
 const SignUpPage = () => {
   const navigate = useNavigate()
@@ -13,6 +15,11 @@ const SignUpPage = () => {
   const [img, setImg] = useState()
   const [user, setUser] = useState()
 
+  const emailFocus = useRef()
+  const passwordFocus = useRef()
+  const checkPasswordFocus = useRef()
+  const nicknameFocus = useRef()
+
   const handleImageSelect = (file) => {
     setImg(file)
   }
@@ -20,6 +27,31 @@ const SignUpPage = () => {
   //auth에 회원가입을 하기 위한 코드
   const signUpNewUser = async (e) => {
     e.preventDefault()
+
+    // 필수 입력 항목 검사
+    if (!email.trim()) {
+      toast.warning('이메일을 입력해주세요.') // 이메일 입력을 요구하는 알림
+      emailFocus.current.focus()
+      return // 이메일 입력란에 포커스
+    }
+
+    if (!password.trim()) {
+      toast.warning('비밀번호를 입력해주세요.') // 비밀번호 입력을 요구하는 알림
+      passwordFocus.current.focus()
+      return // 비밀번호 입력란에 포커스
+    }
+
+    if (!checkPassword.trim()) {
+      toast.warning('비밀번호 확인을 입력해주세요.') // 비밀번호 확인을 요구하는 알림
+      checkPasswordFocus.current.focus()
+      return // 비밀번호 확인 입력란에 포커스
+    }
+
+    if (!nickname.trim()) {
+      toast.warning('닉네임을 입력해주세요.') // 이메일 입력을 요구하는 알림
+      nicknameFocus.current.focus()
+      return // 닉네임 입력란에 포커스
+    }
 
     if (password !== checkPassword) {
       toast.error('비밀번호와 비밀번호 확인이 일치하지 않습니다.')
@@ -47,11 +79,10 @@ const SignUpPage = () => {
       return
     }
 
-    console.log(data)
-
     // 이미지 업로드 처리
-    let profileImageUrl = ''
+    let profileImageUrl
     if (img) {
+      console.log(img)
       // Supabase Storage에 이미지 업로드
       const fileExt = img.name.split('.').pop()
       const filePath = `url_img/${data.user.id}.${fileExt}`
@@ -66,21 +97,21 @@ const SignUpPage = () => {
       }
 
       // 업로드된 이미지 URL 가져오기
-      profileImageUrl = supabase.storage.from('avatars').getPublicUrl(filePath).publicURL
+      console.log(filePath)
+      const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(filePath)
+
+      console.log({ data: urlData })
+
+      profileImageUrl = urlData.publicUrl
     }
 
     //users table에 회원가입을 하기 위한 코드
-    const { data: userData, error: dbError } = await supabase.from('users').insert({
+    const { data: userData } = await supabase.from('users').insert({
       email: data.user.user_metadata.email,
       id: data.user.id,
       nickname: nickname,
       url_img: profileImageUrl
     })
-
-    if (dbError) {
-      console.log(dbError)
-      return
-    }
 
     setUser(userData) // userData 저장
     navigate('/login') // 회원가입 완료 후 로그인 페이지로 이동
@@ -90,35 +121,118 @@ const SignUpPage = () => {
   // user가 없을때 회원가입이 가능하도록 설정
   if (!user) {
     return (
-      <div>
-        <h1>회원가입 페이지 입니다.</h1>
-        <form onSubmit={signUpNewUser}>
+      <SignUpContainer>
+        <SignUpForm onSubmit={signUpNewUser}>
+          <Title>회원가입</Title>
+
           <ProfileImageUpload onImageSelect={handleImageSelect} />
 
-          <div>
-            <label>이메일</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          </div>
+          <FormGroup>
+            <Label>
+              <FaEnvelope size={24} style={{ marginRight: '10px' }} />
+              이메일
+            </Label>
+            <Input ref={emailFocus} type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          </FormGroup>
 
-          <div>
-            <label>비밀번호</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          </div>
+          <FormGroup>
+            <Label>
+              <FaLock size={24} style={{ marginRight: '10px' }} />
+              비밀번호
+            </Label>
+            <Input ref={passwordFocus} type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          </FormGroup>
 
-          <div>
-            <label>비밀번호확인</label>
-            <input type="password" value={checkPassword} onChange={(e) => setCheckPassWord(e.target.value)} />
-          </div>
+          <FormGroup>
+            <Label>
+              <FaLock size={24} style={{ marginRight: '10px' }} />
+              비밀번호 확인
+            </Label>
+            <Input
+              ref={checkPasswordFocus}
+              type="password"
+              value={checkPassword}
+              onChange={(e) => setCheckPassWord(e.target.value)}
+            />
+          </FormGroup>
 
-          <div>
-            <label>닉네임</label>
-            <input type="text" value={nickname} onChange={(e) => setNickName(e.target.value)} />
-          </div>
+          <FormGroup>
+            <Label>
+              <FaUser size={24} style={{ marginRight: '10px' }} />
+              닉네임
+            </Label>
+            <Input ref={nicknameFocus} type="text" value={nickname} onChange={(e) => setNickName(e.target.value)} />
+          </FormGroup>
 
-          <button type="submit">가입하기</button>
-        </form>
-      </div>
+          <SubmitButton type="submit">가입하기</SubmitButton>
+        </SignUpForm>
+      </SignUpContainer>
     )
   }
 }
 export default SignUpPage
+
+// 스타일 컴포넌트
+const SignUpContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`
+
+const SignUpForm = styled.form`
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 400px;
+`
+
+const Title = styled.h1`
+  text-align: center;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+`
+
+const FormGroup = styled.div`
+  margin-bottom: 20px;
+`
+
+const Label = styled.label`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 5px;
+`
+
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  &:focus {
+    border-color: #d3d3d3;
+    outline: none;
+  }
+`
+
+const SubmitButton = styled.button`
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #2c2c2c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #3c3c3c;
+  }
+`

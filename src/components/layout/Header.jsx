@@ -12,7 +12,7 @@ import supabase from '../../supabase/supabaseClient'
 import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa'
 
 const Header = () => {
-  const { session, user } = useUserContext()
+  const { session, user, updateUser } = useUserContext()
 
   // 로그아웃 핸들러
   const handleLogout = async () => {
@@ -21,6 +21,7 @@ const Header = () => {
       toast.error('로그아웃 중 오류 발생')
     } else {
       toast.success('로그아웃되었습니다')
+      updateUser(null)
     }
   }
 
