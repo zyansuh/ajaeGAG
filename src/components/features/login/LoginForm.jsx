@@ -67,23 +67,23 @@ const LoginForm = () => {
     navigate('/signup')
   }
 
-  const googleLogin = async () => {
-    setSkipEmailCheck(true)
-    try {
-      const { data } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent'
-          }
-        }
-      })
-    } catch (err) {
-      console.log(err)
-      toast.error('구글 로그인 중 오류가 발생했습니다.')
-    }
-  }
+  // const googleLogin = async () => {
+  //   setSkipEmailCheck(true)
+  //   try {
+  //     const { data } = await supabase.auth.signInWithOAuth({
+  //       provider: 'google',
+  //       options: {
+  //         queryParams: {
+  //           access_type: 'offline',
+  //           prompt: 'consent'
+  //         }
+  //       }
+  //     })
+  //   } catch (err) {
+  //     console.log(err)
+  //     toast.error('구글 로그인 중 오류가 발생했습니다.')
+  //   }
+  // }
 
   if (!user) {
     return (
@@ -121,8 +121,8 @@ const LoginForm = () => {
 
           <Button type="submit">로그인</Button>
 
-          <LinkText onClick={moveSignUP}>회원가입</LinkText>
-          <LinkText onClick={googleLogin}>구글 로그인</LinkText>
+          <Button onClick={moveSignUP}>회원가입</Button>
+          {/* <LinkText onClick={googleLogin}>구글 로그인</LinkText> */}
         </form>
       </LoginContainer>
     )
@@ -208,18 +208,5 @@ const Button = styled.button`
 
   &:hover {
     background-color: #333;
-  }
-`
-
-const LinkText = styled.button`
-  font-size: 14px;
-  color: #2c2c2c;
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-top: 10px;
-  text-decoration: underline;
-  &:hover {
-    color: #007bff;
   }
 `
