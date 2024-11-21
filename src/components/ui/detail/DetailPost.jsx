@@ -84,6 +84,7 @@ const DetailPost = ({ postItem }) => {
 
       if (error) {
         toast.error('게시글에 좋아요를 누를 수 없습니다.')
+        return
       }
 
       setIsLiked(true)
@@ -106,7 +107,7 @@ const DetailPost = ({ postItem }) => {
         </DetailPostBtnGroup>
       </DetailPostTitleContainer>
       <DetailPostUersContainer>
-        <DetailPostUserImg src={postItem.users.url_img ? postItem.user.url_img : null} alt="user Profile" />
+        <DetailPostUserImg src={postItem.users.url_img ? postItem.users.url_img : null} alt="user Profile" />
         <DetailPostUserName>
           {postItem.users.nickname ? postItem.users.nickname : postItem.users.email}
         </DetailPostUserName>
@@ -197,7 +198,6 @@ const DetailPostLikeBtn = styled.button`
   border-radius: 8px;
   padding: 5px 10px;
   cursor: pointer;
-}
 `
 
 const DetailPostLikeCount = styled.span`

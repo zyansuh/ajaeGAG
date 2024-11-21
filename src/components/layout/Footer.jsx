@@ -25,7 +25,7 @@ const FooterContainer = styled.footer`
   font-weight: bold;
   margin: 0 auto;
   color: var(--logo--color);
-  background-color: var(--nav-color);
+  background-color: var(--nav--color);
 
   div {
     display: flex;

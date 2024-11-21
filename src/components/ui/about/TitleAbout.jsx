@@ -25,6 +25,10 @@ const CatchLineContainer = styled.div`
   p {
     padding: 10px;
   }
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
 `
 
 const TitleContainer = styled.div`
@@ -40,5 +44,13 @@ const TitleContainer = styled.div`
 
   h1 {
     font-size: 45px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+
+    h1 {
+      font-size: 26px;
+    }
   }
 `
