@@ -32,7 +32,6 @@ export const UserContextProvider = ({ children }) => {
 
   const updateUser = (newUser) => {
     setUser(newUser)
-    console.log(newUser)
   }
 
   return <UserContext.Provider value={{ session, user, setUser, updateUser }}>{children}</UserContext.Provider>

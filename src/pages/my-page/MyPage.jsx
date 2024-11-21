@@ -33,7 +33,7 @@ function MyPage() {
   const handleImageSelect = async (file) => {
     if (!file) return
 
-    const fileName = `${Date.now()}-${file.name}`
+    const fileName = `url_img/${Date.now()}`
     const { data, error } = await supabase.storage
       .from('avatars') // 'avatars'라는 Storage 버킷에 업로드
       .upload(fileName, file)
@@ -42,6 +42,7 @@ function MyPage() {
       const { publicURL } = supabase.storage.from('avatars').getPublicUrl(fileName)
       setUrlImg(publicURL) // 업로드한 이미지의 URL을 상태에 저장
     } else {
+      console.log(error)
       toast.error('이미지 업로드 실패')
     }
   }
@@ -75,30 +76,27 @@ function MyPage() {
       return
     }
 
-    // 구글 로그인 사용자일 경우 닉네임, 이메일은 수정 불가
-    if (user.user?.provider !== 'google') {
-      try {
-        // 이메일 또는 닉네임 업데이트 (user_metadata에 저장)
-        const { data, error } = await supabase.auth.updateUser({
-          data: {
-            nickname, // nickname을 user_metadata에 저장
-            url_img: urlImg // url_img도 user_metadata에 저장
-          }
-        })
-
-        if (error) {
-          console.error('Error updating profile:', error)
-          toast.error('프로필 업데이트 실패')
-        } else {
-          toast.success('프로필이 업데이트되었습니다.')
-
-          // 업데이트가 성공하면 user 데이터를 Context에 반영
-          updateUser({ ...user, user_metadata: { ...user.user_metadata, nickname, url_img: urlImg } })
+    try {
+      // 이메일 또는 닉네임 업데이트 (user_metadata에 저장)
+      const { data, error } = await supabase.auth.updateUser({
+        data: {
+          nickname, // nickname을 user_metadata에 저장
+          url_img: urlImg // url_img도 user_metadata에 저장
         }
-      } catch (error) {
-        console.error('Error updating user metadata:', error)
-        toast.error('프로필 업데이트 중 문제가 발생했습니다.')
+      })
+
+      if (error) {
+        console.error('Error updating profile:', error)
+        toast.error('프로필 업데이트 실패')
+      } else {
+        toast.success('프로필이 업데이트되었습니다.')
+
+        // 업데이트가 성공하면 user 데이터를 Context에 반영
+        updateUser({ ...user, user_metadata: { ...user.user_metadata, nickname, url_img: urlImg } })
       }
+    } catch (error) {
+      console.error('Error updating user metadata:', error)
+      toast.error('프로필 업데이트 중 문제가 발생했습니다.')
     }
 
     // 비밀번호 수정
@@ -161,7 +159,7 @@ function MyPage() {
         <ProfileImageUpload
           onImageSelect={handleImageSelect}
           currentImage={urlImg}
-          disabled={user?.app_metadata.provider === 'google'}
+          // disabled={user?.app_metadata.provider === 'google'}
         />
 
         <Form onSubmit={(e) => e.preventDefault()}>
@@ -176,7 +174,7 @@ function MyPage() {
               type="text"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
-              disabled={user?.app_metadata.provider === 'google'}
+              // disabled={user?.app_metadata.provider === 'google'}
             />
           </InputGroup>
 
