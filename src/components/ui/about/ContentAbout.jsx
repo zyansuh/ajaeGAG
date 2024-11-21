@@ -1,6 +1,8 @@
 import styled from 'styled-components'
-import contentData from '../../../data/contentData'
+
 import FeatureAbout from '../../features/about/FeatureAbout'
+
+import contentData from '../../../data/contentData'
 
 const ContentAbout = () => {
   return (

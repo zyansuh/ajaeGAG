@@ -1,6 +1,9 @@
-import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+
+import { useNavigate } from 'react-router-dom'
+
+import styled from 'styled-components'
+
 import supabase from '../../supabase/supabaseClient'
 
 const HomePage = () => {

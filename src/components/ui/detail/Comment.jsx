@@ -1,13 +1,30 @@
+import { toast } from 'react-toastify'
+
+import { useEffect, useState } from 'react'
+
 import styled from 'styled-components'
 
-import changeTime from '../../../utils/changeTime'
-import supabase from '../../../supabase/supabaseClient'
-import { toast } from 'react-toastify'
 import { useUserContext } from '../../../context/userContext'
-import { useState } from 'react'
+
+import changeTime from '../../../utils/changeTime'
+
+import supabase from '../../../supabase/supabaseClient'
+
+import ProfileImg from '../../common/ProfileImg'
 
 const Comment = ({ comment, modify, setModify }) => {
   const { user } = useUserContext()
+
+  const [profile, setProfile] = useState('')
+
+  useEffect(() => {
+    const getProfileImg = async () => {
+      const { data } = await supabase.from('users').select('url_img').eq('id', user.id).single()
+      setProfile(data)
+    }
+
+    getProfileImg()
+  }, [user.id])
 
   const [commentModify, setCommnetModify] = useState(false)
   const [modifyContent, setModifyContent] = useState('')
@@ -17,6 +34,7 @@ const Comment = ({ comment, modify, setModify }) => {
 
     if (error) {
       toast.error('댓글을 삭제할 수 없습니다.')
+      return
     }
 
     setModify(!modify)
@@ -34,6 +52,7 @@ const Comment = ({ comment, modify, setModify }) => {
 
     if (error) {
       toast.error('댓글을 수정할 수 없습니다.')
+      return
     }
 
     setModify(!modify)
@@ -45,7 +64,7 @@ const Comment = ({ comment, modify, setModify }) => {
     <CommentContainer>
       <CommentInforContainer>
         <CommentInfoBox>
-          <CommentProfile src={comment.users.url_img ? comment.users.url_img : null} alt="comment user profile" />
+          <ProfileImg imgUrl={profile ? profile.url_img : null} $width={35} $height={35} />
           <div>
             <CommentUserName>{comment.users.nickname ? comment.users.nickname : comment.users.email}</CommentUserName>
             <CommentDate>{changeTime(comment.created_at)}</CommentDate>
@@ -93,13 +112,6 @@ const CommentInforContainer = styled.div`
 const CommentContent = styled.p`
   margin-top: 20px;
   padding: 10px 15px;
-`
-
-const CommentProfile = styled.img`
-  width: 35px;
-  height: 35px;
-  background: orange;
-  border-radius: 50%;
 `
 
 const CommentUserName = styled.p`

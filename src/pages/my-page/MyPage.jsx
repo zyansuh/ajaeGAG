@@ -1,9 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
+
 import { useNavigate } from 'react-router-dom'
+
+import { toast } from 'react-toastify'
+
+import styled from 'styled-components'
+
 import supabase from '../../supabase/supabaseClient'
 import ProfileImageUpload from '../../components/features/login/ProfileImageUpload'
-import { toast } from 'react-toastify'
-import styled from 'styled-components'
+
 import { useUserContext } from '../../context/userContext'
 
 function MyPage() {

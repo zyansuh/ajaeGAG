@@ -33,6 +33,7 @@ const CommentForm = ({ modify, setModify }) => {
 
     if (error) {
       toast.error('댓글을 작성할 수 없습니다.')
+      return
     }
 
     setContent('')

@@ -1,11 +1,12 @@
 import styled from 'styled-components'
+
 import ListCard from '../../components/ui/list/ListCard'
 import ListLoading from '../../components/ui/list/ListLoading'
+
 import useInfiniteScroll from '../../hooks/useInfiniteScroll'
 
 const ListPage = () => {
   const { data, loading, lastElementRef } = useInfiniteScroll()
-
 
   if (loading && data.length === 0) return <p>Loading...</p>
 
